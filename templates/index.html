@@ -1,0 +1,306 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Compiled CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
+	</head>
+
+	<body class = "body brown">
+		<div class="container">
+			<div class="row">
+				<!--  -->
+				<!-- Start of the Pick an Herb Column -->
+				<div class="col s4 red">
+					<div class="card light-blue accent-1 lighten-2 small">
+						<div class="card-content">
+							<h5 class="center"> {{ Test }} 1. Pick an Herb</h5>
+							<p>a. Use the drop down menus below to filter the herb list.</p>
+							<p>b. Click an herb from the list to select it, and click the Load Info button to view information about that herb!</p>
+						</div>
+					</div>
+					<div class="card light-blue accent-1 lighten-2 small">
+						<div class="input-field col s12 vertical-align">
+							<select id="FlavorSelect">
+							<option value="" disabled selected>Select</option>
+							<option value="1">Option 1</option>
+							<option value="2">Option 2</option>
+							<option value="3">Option 3</option>
+							</select>
+							<label for="FlavorSelect">Sensory Characteristics</label>
+						</div>
+						<div class="input-field col s12 vertical-align">
+							<select id="ActionSelect">
+							<option value="" disabled selected>Select</option>
+							<option value="1">Option 1</option>
+							<option value="2">Option 2</option>
+							<option value="3">Option 3</option>
+							</select>
+							<label for="ActionSelect">Herbal Actions</label>
+						</div>						
+						<div class="input-field col s12 vertical-align">
+							<select id="EnergeticsSelect">
+							<option value="" disabled selected>Select</option>
+							<option value="1">Option 1</option>
+							<option value="2">Option 2</option>
+							<option value="3">Option 3</option>
+							</select>
+							<label for="EnergeticsSelect">Energetics</label>
+						</div>
+					</div>
+					<div class="card light-blue accent-1 lighten-2" style="height: 500px; overflow-y: auto;">
+						
+						<ul class="collection green .input-field">
+
+							{% for Herb in HerbList %}
+							<li class="collection-item avatar">
+								<i class="material-icons circle">wikiphoto</i>
+							<span class="title">{{ Herb.commonname }}</span>
+							<p><i>Melissa officinalis</i> <br>
+								Leaf
+							</p>
+							{% endfor %}
+
+							</li>
+							<li class="collection-item avatar">
+								<i class="material-icons circle">wikiphoto</i>
+							<span class="title">Spear Mint</span>
+							<p><i>Mentha spicata</i> <br>
+								Leaf
+							</p>
+							</li>
+							<li class="collection-item avatar">
+								<i class="material-icons circle">wikiphoto</i>
+							<span class="title">Ginger</span>
+							<p><i>Zingiber officinalis</i> <br>
+								Rhizome
+							</p>
+							</li>
+						</ul>
+					</div>
+					<div class="center padding=2">
+						<a class="waves-effect waves-light btn-large center">View Herb Info</a>
+					</div>
+				</div>
+				<!--  -->
+				<!-- Start of the View Info and Add column -->
+				<div class="col s4 green">
+					<div class="card light-blue accent-1 lighten-2 small">
+						<div class="card-content">
+							<h5 class="center">1. View Info and Add</h5>
+							<p>View herbal info below! After viewing the photo, botanical information, and the herb’s flavor profile, you can add the herb to the tea by clicking the Add Herb button.</p>
+						</div>
+					</div>
+					<div class="card light-blue accent-1 lighten-2 large">
+						<div class="card-image">
+							<img src="/static/sample-1.jpg">
+							<span class="card-title">Card Title</span>
+						  </div>
+						  <div class="card-content">
+							<p>I am a very simple card. I am good at containing small bits of information.
+							I am convenient because I require little markup to use effectively.</p>
+						  </div>
+					</div>
+					<div class="card light-blue accent-1 small">
+						<div class="card-content">
+							<div class="card-tabs">
+								<ul class="tabs tabs-fixed-width">
+									<li class="tab col"><a href="#flavorTab">Flavors</a></li>
+									<li class="tab col"><a href="#actionTab">Action</a></li>
+									<li class="tab col"><a href="#energeticsTab">Energetics</a></li>
+								</ul>
+							</div>
+							<div class="card-content grey lighten-4">
+								<div id="flavorTab">
+									<div class="row">
+										<div class="col s4">
+											<div>Floral</div>
+											<div>Woody</div>
+											<div>Metallic</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+									</div>
+								</div>
+		
+								<div id="energeticsTab">
+									<div class="row">
+										<div class="col s4">
+											<div>sdf</div>
+											<div>s33d</div>
+											<div>Metallic</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="actionTab">
+									<div class="row">
+										<div class="col s4">
+											<div>s1223df</div>
+											<div>s3323d</div>
+											<div>Metallic</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="center padding=2">
+						<a class="waves-effect waves-light btn-large center">Add to Tea</a>
+					</div>
+				</div>
+				<!--  -->
+				<!-- Start of the View your recipe Column -->
+				<div class="col s4 blue">
+					<div class="card light-blue accent-1 lighten-2 small">
+						<div class="card-content">
+							<h5 class="center">3. Review your tea.</h5>
+							<p>Review the flavor profile of your tea, and its ingredients! The flavor profile is automatically updated when a an herb is added or removed. You may remove an herb by selecting it from the list and clicking the Remove Herb button.</p>
+						</div>
+					</div>
+					<div class="card light-blue accent-1 small">
+						<div class="card-content">
+							<div class="card-tabs">
+								<ul class="tabs tabs-fixed-width">
+									<li class="tab col"><a href="#flavorTab2">Flavors</a></li>
+									<li class="tab col"><a href="#actionTab2">Action</a></li>
+									<li class="tab col"><a href="#energeticsTab2">Energetics</a></li>
+								</ul>
+							</div>
+							<div class="card-content grey lighten-4">
+								<div id="flavorTab2">
+									<div class="row">
+										<div class="col s4">
+											<div>Floral</div>
+											<div>Woody</div>
+											<div>Metallic</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+									</div>
+								</div>
+		
+								<div id="energeticsTab2">
+									<div class="row">
+										<div class="col s4">
+											<div>sdf</div>
+											<div>s33d</div>
+											<div>Metallic</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="actionTab2" style="transform: translateX(0px) translateX(0px) translateX(0px) translateZ(0px);">
+									<div class="row">
+										<div class="col s4">
+											<div>s1223df</div>
+											<div>s3323d</div>
+											<div>Metallic</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+										<div class="col s4">
+											<div>1</div>
+											<div>2</div>
+											<div>3</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card light-blue accent-1 lighten-2 large" style="overflow-y: auto; padding:10px">
+						<ul class="collection green .input-field">
+							<li class="collection-item avatar">
+								<i class="material-icons circle">wikiphoto</i>
+							<span class="title">Lemon Balm</span>
+							<p><i>Melissa officinalis</i> <br>
+								Leaf
+							</p>
+							</li>
+							<li class="collection-item avatar">
+								<i class="material-icons circle">wikiphoto</i>
+							<span class="title">Spear Mint</span>
+							<p><i>Mentha spicata</i> <br>
+								Leaf
+							</p>
+							</li>
+							<li class="collection-item avatar">
+								<i class="material-icons circle">wikiphoto</i>
+							<span class="title">Ginger</span>
+							<p><i>Zingiber officinalis</i> <br>
+								Rhizome
+							</p>
+							</li>
+						</ul>
+					</div>
+					<div class="center padding=2">
+						<a class="waves-effect waves-light btn-large center">Remove Herb</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Compiled and JavaScript -->
+		<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+		<script>
+			$(document).ready(function() {
+			   $('select').formSelect();
+		   });
+		 </script>
+		 <script>
+			$(document).ready(function(){
+				$('.tabs').tabs();
+			});
+		 </script>
+	</body>
+</html>
