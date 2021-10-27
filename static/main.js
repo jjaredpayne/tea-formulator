@@ -2,13 +2,14 @@ var selectedHerbName = "Lemon Balm";
 var selectedHerbText = "Lemon balm (Melissa officinalis)[note 1] is a perennial herbaceous plant in the mint family and native to south-central Europe, the Mediterranean Basin, Iran, and Central Asia, but now naturalized elsewhere.";
 var selectedlatinbinomial = "Melissa officinalis"
 var selectedHerb = ''
-var confirmedHerb = ""
+var confirmedHerb = ''
+var tealatinbinomial = ''
 
 var indexUrl = 'http://127.0.0.1:5000/';
 
 
 function SelectHerb( Herb ){
-    console.log("viewHerbInfo")
+    // console.log("viewHerbInfo")
     return new Promise(function(resolve, reject){
 
         fullHerb = Herb;
@@ -19,21 +20,18 @@ function SelectHerb( Herb ){
         selectedlatinbinomial = decodeURI(selectedHerb.latinbinomial);
         selectedlatinbinomial = selectedlatinbinomial.replace(/\s+/g, '');
         selectedHerbPlantPart = selectedHerb.plantpart;
-
-        if(selectedlatinbinomial == "Melissaofficinalis"){
-            selectedHerbText = "Lemon balm (Melissa officinalis)[note 1] is a perennial herbaceous plant in the mint family and native to south-central Europe, the Mediterranean Basin, Iran, and Central Asia, but now naturalized elsewhere.";
-        }
-        if(selectedlatinbinomial == "Menthaspicata"){
-            selectedHerbText = "Spear Mint Text";
-        }
-
-        console.log(selectedHerbName)
-        console.log(selectedHerbPlantPart)
-        console.log(selectedlatinbinomial)
+        UpdateHerbInfo()
 
     });
 };
 
+function SelectTeaHerb( latinbinomial ){
+    return new Promise(function(resolve, reject){
+        tealatinbinomial = latinbinomial
+        console.log(tealatinbinomial);
+        RemoveFromTea()
+    });
+};
 
 function UpdateHerbInfo(){
     console.log("UpdateHerbInfo")
@@ -49,7 +47,6 @@ function UpdateHerbInfo(){
 };
 
 function AddToTea() {
-
         return new Promise(function (resolve, reject) {
             // document.getElementById('addToTeaButton').addEventListener('click', function (event) {
                 console.log("fullHerb")
@@ -64,42 +61,42 @@ function AddToTea() {
                     if (req.status >= 200 && req.status < 400) {
                         if (req.responseText !== '') {
 
-                            var TeaList = req.responseText.replaceAll("'",'"');
-                            console.log("TeaList" + TeaList)
-                            console.log(typeof TeaList)
-                            TeaList = JSON.stringify(TeaList)
-                            console.log("TeaList" + TeaList)
-                            console.log(typeof TeaList)
-                            TeaList = JSON.parse(TeaList)
-                            console.log("TeaList" + TeaList)
-                            console.log(typeof TeaList)
-                            TeaList = TeaList.split()
+                            var TeaList = req.responseText;
 
+                            console.log("TeaList: " + TeaList)
+                            TeaList = JSON.parse(TeaList)
+                            console.log(typeof TeaList)
+                            console.log(TeaList)
 
                             // console.log("JSON.parse: " + JSON.parse(req.responseText));
                             // let response = JSON.parse(req.responseText);
-                            // console.log('response: ' + response.results);
 
-                            var allHerbEntries = ''
+                            console.log(TeaList.length);
 
 
+                            var teaListEntries =  ''
 
                             //Loop through TeaList and update HTML
-                            for (var teaHerb = 0; teaHerb < TeaList.length; teaHerb++){
-                                currentHerb= JSON.parse(TeaList[teaHerb])
-                                console.log(currentHerb)
-                                console.log(currentHerb[teaHerb].commonname)
+                            for (var i = 0; i < TeaList.length ; i++){
+                            // for(currentHerb in TeaList){
+                                // console.log(typeof TeaList)
+                                // console.log("CURRENT TeaList: " + TeaList.commonname)
+                                // console.log("CURRENT Herb: " )
+                                // console.log(TeaList[i] )
+                                // currentHerb = TeaList[i]
+                                //currentHerb= JSON.parse(TeaList[i])
+                                currentHerb = TeaList[i]
 
-                               allHerbEntries += "<a href=\"#!\" class=\"collection-item avatar\" onclick=\"SelectHerb('"+ TeaList[teaHerb].commonname + "', '"+TeaList[teaHerb].latinbinomial + "')\">"
+                                teaListEntries += "<a href=\"#!\" class=\"collection-item avatar\" onclick=\"SelectTeaHerb('"+TeaList[i].latinbinomial + "')\">"
                                     +"<i class=\'material-icons circle\'>"+"wikiphoto"+"</i>"
-                                    +"<span id='"+ TeaList[teaHerb].commonname + "' class='title'>" + TeaList[teaHerb].commonname + "</span>"
-                                    +"<span id='TeaList.commonname' class='title'>" + TeaList[teaHerb].commonname + "</span>"
-                                    +"<p id ='" + TeaList[teaHerb].latinbinomial + "'>'" +  TeaList[teaHerb].latinbinomial + "'</p>"
-                                    +"<p id = >" + TeaList[teaHerb].plantpart + "</p>"
+                                    //+"<span id='"+ TeaList[i].commonname + "' class='title'>" + TeaList[i].commonname + "</span>"
+                                    +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
+                                    +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
+                                    +"<p id = >" + TeaList[i].plantpart + "</p>"
                                     +"</a>"
                                     +"</li>"
                             }
-                            document.getElementById('TeaListEntries').innerHTML = allHerbEntries
+                            document.getElementById('teaListEntries').innerHTML = teaListEntries
                         } 
                         else {
                             console.log('error: reponse empty');
@@ -114,3 +111,70 @@ function AddToTea() {
         });
     }
     ;
+
+
+    
+function RemoveFromTea() {
+    return new Promise(function (resolve, reject) {
+        // document.getElementById('addToTeaButton').addEventListener('click', function (event) {
+            console.log("fullHerb")
+            var parsedFullHerb = JSON.parse(fullHerb.replaceAll("'", '"'));    
+            var req = new XMLHttpRequest();
+
+            reqURL = indexUrl + 'RemoveFromTea' + '?latinbinomial=' + tealatinbinomial;
+            console.log('reqURL:', reqURL);
+            req.open('GET', reqURL, true);
+            req.addEventListener("load", function () {
+                if (req.status >= 200 && req.status < 400) {
+                    if (req.responseText !== '') {
+
+                        var TeaList = req.responseText;
+
+                        console.log("TeaList: " + TeaList)
+                        TeaList = JSON.parse(TeaList)
+                        console.log(typeof TeaList)
+                        console.log(TeaList)
+
+                        // console.log("JSON.parse: " + JSON.parse(req.responseText));
+                        // let response = JSON.parse(req.responseText);
+
+                        console.log(TeaList.length);
+
+
+                        var teaListEntries =  ''
+
+                        //Loop through TeaList and update HTML
+                        for (var i = 0; i < TeaList.length ; i++){
+                        // for(currentHerb in TeaList){
+                            // console.log(typeof TeaList)
+                            // console.log("CURRENT TeaList: " + TeaList.commonname)
+                            // console.log("CURRENT Herb: " )
+                            // console.log(TeaList[i] )
+                            // currentHerb = TeaList[i]
+                            //currentHerb= JSON.parse(TeaList[i])
+                            currentHerb = TeaList[i]
+
+                            teaListEntries += "<a href=\"#!\" class=\"collection-item avatar\" onclick=\"SelectTeaHerb('"+ TeaList[i].commonname + "', '"+TeaList[i].latinbinomial + "')\">"
+                                +"<i class=\'material-icons circle\'>"+"wikiphoto"+"</i>"
+                                //+"<span id='"+ TeaList[i].commonname + "' class='title'>" + TeaList[i].commonname + "</span>"
+                                +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
+                                +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
+                                +"<p id = >" + TeaList[i].plantpart + "</p>"
+                                +"</a>"
+                                +"</li>"
+                        }
+                        document.getElementById('teaListEntries').innerHTML = teaListEntries
+                    } 
+                    else {
+                        console.log('error: reponse empty');
+                    }
+                } 
+                else {
+                    console.log("Error! " + req.statusText);
+                }
+        });
+        req.send(null);
+        // });
+    });
+}
+;
