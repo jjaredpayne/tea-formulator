@@ -17,22 +17,22 @@ melissaofficinalis = {
     "plantpart": "Leaf",
     "flavors":
         {
-            "Bi": "1",
-            "Sa": "0",
+            "Bi": "0",
+            "Sa": "1",
             "So": "0",
-            "Sw": "0",
-            "Um": "1",
-            "Co": "0",
-            "Ea": "1",
-            "Fl": "0",
+            "Sw": "1",
+            "Um": "0",
+            "Co": "1",
+            "Ea": "0",
+            "Fl": "1",
             "Fr": "0",
             "He": "1",
             "Ho": "0",
             "Nu": "0",
-            "Pi": "1",
+            "Pi": "0",
             "Pu": "0",
-            "Sp": "1",
-            "Su": "1",
+            "Sp": "0",
+            "Su": "0",
             "Wo": "0"
         }
 }
@@ -44,11 +44,11 @@ menthaspicata = {
         {
             "Bi": "1",
             "Sa": "0",
-            "So": "0",
+            "So": "1",
             "Sw": "0",
-            "Um": "0",
+            "Um": "1",
             "Co": "0",
-            "Ea": "0",
+            "Ea": "1",
             "Fl": "0",
             "Fr": "0",
             "He": "0",
@@ -236,11 +236,11 @@ curcumalonga = {
         }
 }
 
-HerbList = []
-TeaList = []
-TeaFlavors = {"flavors":
+TeaFlavors = {
+    "commonname": "TeaFlavors",
+    "flavors":
     {
-        "Bi": 1,
+        "Bi": 0,
         "Sa": 0,
         "So": 0,
         "Sw": 0,
@@ -259,6 +259,8 @@ TeaFlavors = {"flavors":
         "Wo": 0
     }
 }
+HerbList = []
+TeaList = [TeaFlavors]
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -284,20 +286,28 @@ def addHerb():
         addedHerb = addedHerb.replace("'", '"')
         herbJSON = json.loads(addedHerb)
         TeaList.append(herbJSON)
-        print("HERBJSON\n")
-        print(herbJSON)
-        print(herbJSON['flavors'])
-        print(type(herbJSON['flavors']))
-        print(herbJSON['flavors']['Bi'])
-        TeaFlavors['flavors']['Bi']
+        # print("HERBJSON\n")
+        # print(herbJSON)
+        # print(herbJSON['flavors'])
+        # print(type(herbJSON['flavors']))
+        # print(herbJSON['flavors']['Bi'])
+        # TeaFlavors['flavors']['Bi']
+        modTeaFlavor("add", herbJSON)
+    return jsonify(TeaList)
+
+def modTeaFlavor(action, herbJSON):
+    if action == "add":
         for flavor in TeaFlavors['flavors']:
             if herbJSON['flavors'][flavor] == "1":
                 TeaFlavors['flavors'][flavor] += 1
                 print("added 1 to: " + flavor)
                 print("TeaTotal flavor: "+ str(TeaFlavors['flavors'][flavor]))
-
-    return jsonify(TeaList)
-
+    if action == "subtract":
+        for flavor in TeaFlavors['flavors']:
+            if herbJSON['flavors'][flavor] == "1":
+                TeaFlavors['flavors'][flavor] -= 1
+                print("added 1 to: " + flavor)
+                print("TeaTotal flavor: "+ str(TeaFlavors['flavors'][flavor]))
 
 @app.route("/RemoveFromTea", methods=['GET', 'POST'])
 def removeHerb():
@@ -311,6 +321,7 @@ def removeHerb():
             if latinbinomial in str(herb):
                 TeaList.remove(herb)
                 print("Herb Removed " + str(herb))
+                modTeaFlavor("subtract", herb)
         print("After Removal" + str(TeaList))
 
     return jsonify(TeaList)
