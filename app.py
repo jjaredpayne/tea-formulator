@@ -1,3 +1,4 @@
+from typing import KeysView
 from flask import Flask, render_template, request, jsonify
 import json
 import urllib.parse
@@ -11,73 +12,253 @@ app = Flask(__name__)
 #     self.plantpart = plantpart
 
 melissaofficinalis = {
-        "flavors": [
-        {
-            "B": "1",
-            "Sa": "0",
-            "So": "0",
-            "Sw": "0",
-            "U": "0",
-            "C": "0",
-            "E": "0",
-            "Fl": "0",
-            "Fr": "0",
-            "He": "0",
-            "Ho": "0",
-            "N": "0",
-            "Pi": "0",
-            "Pu": "0",
-            "Sp": "0",
-            "Su": "0",
-            "W": "0",
-        }
-    ],
     "commonname": "Lemon Balm",
     "latinbinomial": "Melissa officinalis",
     "plantpart": "Leaf",
+    "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "1",
+            "Co": "0",
+            "Ea": "1",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "1",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "1",
+            "Pu": "0",
+            "Sp": "1",
+            "Su": "1",
+            "Wo": "0"
+        }
 }
 menthaspicata = {
     "commonname": "Spear Mint",
     "latinbinomial": "Mentha spicata",
-    "plantpart": "Leaf"
+    "plantpart": "Leaf",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 cinnamomumcassia = {"commonname": "Cassia",
     "latinbinomial": "Cinnamomum cassia",
-    "plantpart": "Bark"
+    "plantpart": "Bark",
+    "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 phytolaccaamericana = {
     "commonname": "Poke",
     "latinbinomial": "Phytolacca americana",
-    "plantpart": "Fruit"
+    "plantpart": "Fruit",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 hypericumperforatum = {
     "commonname": "St. John's Wort",
     "latinbinomial": "Hypericum perforatum",
-    "plantpart": "Leaf"
+    "plantpart": "Leaf",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 passifloraincarnata = {
     "commonname": "Passionflower",
     "latinbinomial": "Passiflora incarnata",
-    "plantpart": "Leaf and Stem"
+    "plantpart": "Leaf and Stem",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 centellaasiatica = {
     "commonname": "Gotu Kola",
     "latinbinomial": "Centella asiatica",
-    "plantpart": "Leaf and Stem"
+    "plantpart": "Leaf and Stem",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 arctostaphylosuvaursi = {
     "commonname": "Kinnickinick",
     "latinbinomial": "Arctostaphylos uvaursi",
-    "plantpart": "Leaf"
+    "plantpart": "Leaf",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 curcumalonga = {
     "commonname": "Turmeric",
     "latinbinomial": "Curcuma longa",
-    "plantpart": "Rhizome"
+    "plantpart": "Rhizome",
+        "flavors":
+        {
+            "Bi": "1",
+            "Sa": "0",
+            "So": "0",
+            "Sw": "0",
+            "Um": "0",
+            "Co": "0",
+            "Ea": "0",
+            "Fl": "0",
+            "Fr": "0",
+            "He": "0",
+            "Ho": "0",
+            "Nu": "0",
+            "Pi": "0",
+            "Pu": "0",
+            "Sp": "0",
+            "Su": "0",
+            "Wo": "0"
+        }
 }
 
 HerbList = []
 TeaList = []
+TeaFlavors = {"flavors":
+    {
+        "Bi": 1,
+        "Sa": 0,
+        "So": 0,
+        "Sw": 0,
+        "Um": 0,
+        "Co": 0,
+        "Ea": 0,
+        "Fl": 0,
+        "Fr": 0,
+        "He": 0,
+        "Ho": 0,
+        "Nu": 0,
+        "Pi": 0,
+        "Pu": 0,
+        "Sp": 0,
+        "Su": 0,
+        "Wo": 0
+    }
+}
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -92,9 +273,7 @@ def teamain():
     HerbList.append(centellaasiatica)
     HerbList.append(arctostaphylosuvaursi)
     HerbList.append(curcumalonga)
-
-    print("HerbList " + str(HerbList))
-
+   # print("HerbList " + str(HerbList))
     return render_template("index.html", HerbList=HerbList, TeaList=TeaList)
 
 
@@ -104,10 +283,18 @@ def addHerb():
         addedHerb = request.args.get('fullHerb', '')
         addedHerb = addedHerb.replace("'", '"')
         herbJSON = json.loads(addedHerb)
-        print(herbJSON)
-        print(type(herbJSON))
         TeaList.append(herbJSON)
-        print("teaList" + str(TeaList))
+        print("HERBJSON\n")
+        print(herbJSON)
+        print(herbJSON['flavors'])
+        print(type(herbJSON['flavors']))
+        print(herbJSON['flavors']['Bi'])
+        TeaFlavors['flavors']['Bi']
+        for flavor in TeaFlavors['flavors']:
+            if herbJSON['flavors'][flavor] == "1":
+                TeaFlavors['flavors'][flavor] += 1
+                print("added 1 to: " + flavor)
+                print("TeaTotal flavor: "+ str(TeaFlavors['flavors'][flavor]))
 
     return jsonify(TeaList)
 
