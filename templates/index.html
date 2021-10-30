@@ -14,12 +14,13 @@
 				<div class="col s4 red">
 					<div class="card light-blue accent-1 lighten-2 small">
 						<div class="card-content">
-							<h5 class="center"> {{ Test }} 1. Pick an Herb</h5>
+							<h5 class="center">1. Pick an Herb</h5>
 							<p>a. Use the drop down menus below to filter the herb list.</p>
 							<p>b. Click an herb from the list to select it, and click the Load Info button to view information about that herb!</p>
 						</div>
 					</div>
-					<div class="card light-blue accent-1 lighten-2 small">
+					<div class="card light-blue accent-1" style="height:350px">
+						<span class="card-title center-align">Filter By...</span>
 						<div class="input-field col s12 vertical-align">
 							<select id="FlavorSelect">
 							<option value="" disabled selected>Select</option>
@@ -52,9 +53,10 @@
 					<!-- Populate Herblist with objects from app.py -->
 					<!--============================================-->
 					<div class="card light-blue accent-1 lighten-2" style="height: 500px; overflow-y: auto;">
+						<span class="card-title center-align">Click an herb to view info.</span>
 						<ul class="collection green .input-field">
 							{% for Herb in HerbList %}
-							<a href="#!" class="collection-item avatar" onclick='SelectHerb("{{ Herb }}")'>
+							<a href="#!" id = '{{ Herb.commonname }}_l' class="collection-item avatar" onclick='SelectHerb("{{ Herb }}")'>
 								<i class="material-icons circle">wikiphoto</i>
 								<span id='{{ Herb.commonname }}' class="title">{{ Herb.commonname }}</span>
 								<p id ='{{ Herb.latinbinomial }}'>{{ Herb.latinbinomial }}</p>
@@ -63,27 +65,11 @@
 							{% endfor %}
 						</li>
 					<!--============================================-->
-
-
-							<li class="collection-item avatar">
-								<i class="material-icons circle">wikiphoto</i>
-							<span class="title">Spear Mint</span>
-							<p><i>Mentha spicata</i> <br>
-								Leaf
-							</p>
-							</li>
-							<li class="collection-item avatar">
-								<i class="material-icons circle">wikiphoto</i>
-							<span class="title">Ginger</span>
-							<p><i>Zingiber officinalis</i> <br>
-								Rhizome
-							</p>
-							</li>
 						</ul>
 					</div>
-					<div class="center padding=2">
+					<!-- <div class="center padding=2">
 						<a class="waves-effect waves-light btn-large center" onclick = "UpdateHerbInfo()">View Herb Info</a>
-					</div>
+					</div> -->
 				</div>
 
 				<!--============================================-->
@@ -96,18 +82,10 @@
 							<p>View herbal info below! After viewing the photo, botanical information, and the herb’s flavor profile, you can add the herb to the tea by clicking the Add Herb button.</p>
 						</div>
 					</div>
-					<div class="card light-blue accent-1 lighten-2 large">
-						<div class="card-image">
-							<img id = "herbImage" src="/static/menthaspicata.jpg">
-							<span id = "herbName" class="card-title">Spear Mint</span>
-						  </div>
-						  <div class="card-content">
-							<p id="herbText">I am a very simple card. I am good at containing small bits of information.
-							I am convenient because I require little markup to use effectively.</p>
-						  </div>
-					</div>
-					<div class="card light-blue accent-1 small">
-						<div class="card-content">
+
+					<div class="card light-blue accent-1" style="height:350px" >
+						<span class="card-title center-align">This Herb Profile</span>
+						<div class="card-content, offset-m1" style="margin: 5px">
 							<div class="card-tabs">
 								<ul class="tabs tabs-fixed-width">
 									<li class="tab col"><a href="#flavorTab">Flavors</a></li>
@@ -115,27 +93,31 @@
 									<li class="tab col"><a href="#energeticsTab">Energetics</a></li>
 								</ul>
 							</div>
-							<div class="card-content grey lighten-4">
-								<div id="flavorTab">
-									<div class="row">
-										<div class="col s4">
-											<div>Floral</div>
-											<div>Woody</div>
-											<div>Metallic</div>
-										</div>
-										<div class="col s4">
-											<div>1</div>
-											<div>2</div>
-											<div>3</div>
-										</div>
-										<div class="col s4">
-											<div>1</div>
-											<div>2</div>
-											<div>3</div>
-										</div>
+							<div class="card-content grey lighten-4 offset-m12" style="padding: 5px !important">
+								<div class="row">
+									<div id="herbFlavorC1" class="col s6 center-align">
+										<div>Bitter</div>
+										<div>Salty</div>
+										<div>Sweet</div>
+										<div>Sour</div>
+										<div>Umami</div>
+										<div>Cooling</div>
+										<div>Earthy</div>
+										<div>Floral</div>
+										<div>Fruit</div>
+									</div>
+									<div id="herbFlavorC2" class="col s6 center-align">
+										<div>Herbaceous</div>
+										<div>Hot</div>
+										<div>Nutty</div>
+										<div>Piney</div>
+										<div>Pungent</div>
+										<div>Spicy</div>
+										<div>Sulfury</div>
+										<div>Woody</div>
 									</div>
 								</div>
-		
+	
 								<div id="energeticsTab">
 									<div class="row">
 										<div class="col s4">
@@ -178,10 +160,22 @@
 							</div>
 						</div>
 					</div>
-					<div class="center padding=2">
-						<a class="waves-effect waves-light btn-large center" id="addToTeaButton" onclick="AddToTea()">Add to Tea</a>
+					<div class="card light-blue accent-1 lighten-2 large" onclick="AddToTea()">
+						<span class="card-title center-align">Click to add herb to your tea.</span>
+						<div class="card-image">
+							<img id = "herbImage" src="/static/menthaspicata.jpg">
+							<span id = "herbName" class="card-title">Spear Mint</span>
+						  </div>
+						  <div class="card-content">
+							<p id="herbText">I am a very simple card. I am good at containing small bits of information.
+							I am convenient because I require little markup to use effectively.</p>
+						  </div>
 					</div>
+					<!-- <div class="center padding=2">
+						<a class="waves-effect waves-light btn-large center" id="addToTeaButton" onclick="AddToTea()">Add to Tea</a>
+					</div> -->
 				</div>
+
 				<!--============================================-->
 				<!-- Begin Column 3: Review your tea		  	-->
 				<!--============================================-->
@@ -192,8 +186,9 @@
 							<p>Review the flavor profile of your tea, and its ingredients! The flavor profile is automatically updated when a an herb is added or removed. You may remove an herb by selecting it from the list and clicking the Remove Herb button.</p>
 						</div>
 					</div>
-					<div class="card light-blue accent-1 small">
-						<div class="card-content">
+					<div class="card light-blue accent-1" style="height:350px">
+						<span class="card-title center-align">Your Tea Profile</span>
+						<div class="card-content, offset-m1" style="margin: 5px">
 							<div class="card-tabs">
 								<ul class="tabs tabs-fixed-width">
 									<li class="tab col"><a href="#flavorTab2">Flavors</a></li>
@@ -201,23 +196,29 @@
 									<li class="tab col"><a href="#energeticsTab2">Energetics</a></li>
 								</ul>
 							</div>
-							<div class="card-content grey lighten-4">
-								<div id="flavorTab2">
+							<div class="card-content grey lighten-4" style="padding: 5px !important">
+								<div id="teaFlavor">
 									<div class="row">
-										<div class="col s4">
+										<div id="teaFlavorc1" class="col s6 center-align">
+											<div>Bitter</div>
+											<div>Salty</div>
+											<div>Sweet</div>
+											<div>Sour</div>
+											<div>Umami</div>
+											<div>Cooling</div>
+											<div>Earthy</div>
 											<div>Floral</div>
+											<div>Fruit</div>
+										</div>
+										<div id="teaFlavorc2" class="col s6 center-align">
+											<div>Herbaceous</div>
+											<div>Hot</div>
+											<div>Nutty</div>
+											<div>Piney</div>
+											<div>Pungent</div>
+											<div>Spicy</div>
+											<div>Sulfury</div>
 											<div>Woody</div>
-											<div>Metallic</div>
-										</div>
-										<div class="col s4">
-											<div>1</div>
-											<div>2</div>
-											<div>3</div>
-										</div>
-										<div class="col s4">
-											<div>1</div>
-											<div>2</div>
-											<div>3</div>
 										</div>
 									</div>
 								</div>
@@ -266,24 +267,17 @@
 					</div>
 
 					<div class="card light-blue accent-1 lighten-2" style="height: 500px; overflow-y: auto;">
+						<span class="card-title">Click an herb to remove it.</span>
 						<!--============================================-->
 						<!-- Populate TeaList with objects from app.py -->
 						<!--============================================-->
-						<ul id= "TeaListEntries" class="collection green .input-field">
-							{% for teaHerb in TeaList %}
-							<a href="#!" class="collection-item avatar" onclick="SelectHerb('{{ teaHerb.commonname }}', '{{ teaHerb.latinbinomial }}')">
-								<i class="material-icons circle">wikiphoto</i>
-								<span id='{{ teaHerb.commonname }}' class="title">{{ teaHerb.commonname }}</span>
-								<p id ='{{ teaHerb.latinbinomial }}'>{{ teaHerb.latinbinomial }}</p>
-								<p id = >	{{ teaHerb.plantpart }}</p>
-							</a>
-							{% endfor %}
-						</li>
+						<ul id= "teaListEntries" class="collection green .input-field">
+		
 						</ul>
 						<!--============================================-->
 					</div>
 					<div class="center padding=2">
-						<a class="waves-effect waves-light btn-large center">Remove Herb</a>
+						<a class="waves-effect waves-light btn-large center" onclick="RemoveFromTea()">Remove Herb</a>
 					</div>
 				</div>
 			</div>
