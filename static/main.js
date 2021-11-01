@@ -4,9 +4,48 @@ var selectedlatinbinomial = "Melissa officinalis"
 var selectedHerb = ''
 var confirmedHerb = ''
 var tealatinbinomial = ''
+var fullHerb = ''
+
+//Flavor attributes
+var Bi = "<div> </div>"
+var Sa = "<div> &nbsp</div>"
+var Sw = "<div> &nbsp</div>"
+var So = "<div> &nbsp</div>"
+var Um = "<div> &nbsp</div>"
+var Co= "<div> &nbsp</div>"
+var Ea = "<div> &nbsp</div>"
+var Fl = "<div> &nbsp</div>"
+var Fr = "<div> &nbsp</div>"
+var He = "<div> &nbsp</div>"
+var Ho = "<div> &nbsp</div>"
+var Nu = "<div> &nbsp</div>"
+var Pi = "<div> &nbsp</div>"
+var Pu = "<div> &nbsp</div>"
+var Sp = "<div> &nbsp</div>"
+var Su = "<div> &nbsp</div>"
+var Wo = "<div> &nbsp</div>"
 
 var indexUrl = 'http://127.0.0.1:5000/';
 
+function resetFlavors () {
+    Bi = "<div> &nbsp </div>"
+    Sa = "<div> &nbsp</div>"
+    Sw = "<div> &nbsp</div>"
+    So = "<div> &nbsp</div>"
+    Um = "<div> &nbsp</div>"
+    Co= "<div> &nbsp</div>"
+    Ea = "<div> &nbsp</div>"
+    Fl = "<div> &nbsp</div>"
+    Fr = "<div> &nbsp</div>"
+    He = "<div> &nbsp</div>"
+    Ho = "<div> &nbsp</div>"
+    Nu = "<div> &nbsp</div>"
+    Pi = "<div> &nbsp</div>"
+    Pu = "<div> &nbsp</div>"
+    Sp = "<div> &nbsp</div>"
+    Su = "<div> &nbsp</div>"
+    Wo = "<div> &nbsp</div>"
+}
 
 function SelectHerb( Herb ){
     // console.log("viewHerbInfo")
@@ -20,7 +59,7 @@ function SelectHerb( Herb ){
         selectedlatinbinomial = decodeURI(selectedHerb.latinbinomial);
         selectedlatinbinomial = selectedlatinbinomial.replace(/\s+/g, '');
         selectedHerbPlantPart = selectedHerb.plantpart;
-        UpdateHerbInfo()
+        UpdateHerbInfo( Herb )
 
     });
 };
@@ -33,7 +72,7 @@ function SelectTeaHerb( latinbinomial ){
     });
 };
 
-function UpdateHerbInfo(){
+function UpdateHerbInfo( Herb ){
     console.log("UpdateHerbInfo")
     return new Promise(function(resolve, reject){
 
@@ -41,68 +80,48 @@ function UpdateHerbInfo(){
         document.getElementById('herbName').innerText = selectedHerbName;
         document.getElementById('herbText').innerText = selectedHerbText;
 
-        var B = "<div>1</div>"
-        var Sa = "<div>2</div>"
-        var Sw = "<div>3</div>"
-        var So = "<div>4</div>"
-        var U = "<div>5</div>"
-        var C= "<div>6</div>"
-        var E = "<div>7</div>"
-        var Fl = "<div>8</div>"
-        var Fr = "<div>9</div>"
-        var He = "<div></div>"
-        var Ho = "<div></div>"
-        var N = "<div></div>"
-        var Pi = "<div></div>"
-        var Pu = "<div></div>"
-        var Sp = "<div></div>"
-        var Su = "<div></div>"
-        var W = "<div></div>"
-
-        fullHerb = fullHerb.replaceAll("'", '"');
-        console.log("fullherb" + fullHerb)
-        console.log("fullherb" + fullHerb["flavors"])
-        console.log("fullherb" + fullHerb[0])
-        console.log("fullherb" + fullHerb[1])
-
-        if (fullHerb[0].B == "1")
-            B="<div>Bitter</div>"
-        if (fullHerb[0].Sa == 1)
-            Sa= "<div>Salty</div>\n"
-        if (fullHerb[0].Sw == 1)
+        flavorHerb = JSON.parse(Herb.replaceAll("'", '"'));
+        console.log(flavorHerb)
+        console.log(flavorHerb.flavors)
+        console.log(flavorHerb.flavors.Bi)
+        resetFlavors();
+        if (flavorHerb.flavors.Bi == 1)
+            Bi="<div>Bitter</div>"
+        if (flavorHerb.flavors.Sa == 1)
+            Sa= "<div>Salty</div>"
+        if (flavorHerb.flavors.Sw == 1)
             Sw= "<div>Sweet</div>"
-        if (fullHerb[0].So == 1)
+        if (flavorHerb.flavors.So == 1)
             So= "<div>Sour</div>"
-        if (fullHerb[0].U == 1)
-            U= "<div>Umami</div>"
-        if (fullHerb[0].C == 1)
+        if (flavorHerb.flavors.Um == 1)
+            Um= "<div>Umami</div>"
+        if (flavorHerb.flavors.Co == 1)
             Co= "<div>Cooling</div>"
-        if (fullHerb[0].E == 1)
+        if (flavorHerb.flavors.Ea == 1)
             Ea= "<div>Earthy</div>"
-        if (fullHerb[0].Fl == 1)
+        if (flavorHerb.flavors.Fl == 1)
             Fl= "<div>Floral</div>"
-        if (fullHerb[0].Fr == 1)
+        if (flavorHerb.flavors.Fr == 1)
             Fr= "<div>Fruit</div>";
-        if (fullHerb[0].He == 1)
+        if (flavorHerb.flavors.He == 1)
             He="<div>Herbaceous</div>"
-        if (fullHerb[0].Ho == 1)
+        if (flavorHerb.flavors.Ho == 1)
             Ho= "<div>Hot</div>"
-        if (fullHerb[0].N == 1)
-            N= "<div>Nutty</div>"
-        if (fullHerb[0].Pi == 1)
+        if (flavorHerb.flavors.Nu == 1)
+            Nu= "<div>Nutty</div>"
+        if (flavorHerb.flavors.Pi == 1)
             Pi= "<div>Piney</div>"
-        if (fullHerb[0].Pu == 1)
+        if (flavorHerb.flavors.Pu == 1)
             Pu= "<div>Pungent</div>"
-        if (fullHerb[0].Sa == 1)
+        if (flavorHerb.flavors.Sa == 1)
             Sp= "<div>Spicy</div>"        
-        if (fullHerb[0].Sp == 1)
+        if (flavorHerb.flavors.Sp == 1)
             Su= "<div>Sulfury</div>"
-        if (fullHerb[0].W == 1)
-            W= "<div>Woody</div>"
+        if (flavorHerb.flavors.Wo == 1)
+            Wo= "<div>Woody</div>"
 
-        c1 = B + Sa + Sw + So + U + C + E + Fl + Fr
-        c2 = He + Ho + N + Pi + Pu + Sp + Su + W
-        console.log(B)
+        c1 = Bi + Sa + Sw + So + Um + Co + Ea + Fl + Fr
+        c2 = He + Ho + Nu + Pi + Pu + Sp + Su + Wo
 
         document.getElementById('herbFlavorC1').innerHTML = c1;
         document.getElementById('herbFlavorC2').innerHTML = c2;
@@ -116,8 +135,8 @@ function AddToTea() {
         return new Promise(function (resolve, reject) {
             // document.getElementById('addToTeaButton').addEventListener('click', function (event) {
                 console.log("fullHerb")
-                //var parsedFullHerb = JSON.parse(fullHerb.replaceAll("'", '"'));    
-                //var confirmedlatinebinomial = parsedFullHerb.latinbinomial;    
+                var parsedFullHerb = JSON.parse(fullHerb.replaceAll("'", '"'));    
+                var confirmedlatinebinomial = parsedFullHerb.latinbinomial;    
                 var req = new XMLHttpRequest();
 
                 reqURL = indexUrl + 'AddToTea' + '?fullHerb=' + fullHerb;
@@ -152,16 +171,68 @@ function AddToTea() {
                                 // currentHerb = TeaList[i]
                                 //currentHerb= JSON.parse(TeaList[i])
                                 currentHerb = TeaList[i]
+                                console.log("TEALIST[i]")
+                                console.log(TeaList[i].commonname)
+                                console.log(typeof TeaList[i].commonname)
+                                if(String(TeaList[i].commonname) == "TeaFlavors"){
+                                    resetFlavors();
+                                    if (TeaList[i].flavors.Bi >= 1)
+                                        Bi="<div>Bitter</div>"
+                                    if (TeaList[i].flavors.Sa >= 1)
+                                        Sa= "<div>Salty</div>\n"
+                                    if (TeaList[i].flavors.Sw >= 1)
+                                        Sw= "<div>Sweet</div>"
+                                    if (TeaList[i].flavors.So >= 1)
+                                        So= "<div>Sour</div>"
+                                    if (TeaList[i].flavors.Um >= 1)
+                                        Um= "<div>Umami</div>"
+                                    if (TeaList[i].flavors.Co >= 1)
+                                        Co= "<div>Cooling</div>"
+                                    if (TeaList[i].flavors.Ea >= 1)
+                                        Ea= "<div>Earthy</div>"
+                                    if (TeaList[i].flavors.Fl >= 1)
+                                        Fl= "<div>Floral</div>"
+                                    if (TeaList[i].flavors.Fr >= 1)
+                                        Fr= "<div>Fruit</div>";
+                                    if (TeaList[i].flavors.He >= 1)
+                                        He="<div>Herbaceous</div>"
+                                    if (TeaList[i].flavors.Ho >= 1)
+                                        Ho= "<div>Hot</div>"
+                                    if (TeaList[i].flavors.Nu >= 1)
+                                        Nu= "<div>Nutty</div>"
+                                    if (TeaList[i].flavors.Pi >= 1)
+                                        Pi= "<div>Piney</div>"
+                                    if (TeaList[i].flavors.Pu >= 1)
+                                        Pu= "<div>Pungent</div>"
+                                    if (TeaList[i].flavors.Sa >= 1)
+                                        Sp= "<div>Spicy</div>"        
+                                    if (TeaList[i].flavors.Sp >= 1)
+                                        Su= "<div>Sulfury</div>"
+                                    if (TeaList[i].flavors.Wo >= 1)
+                                        Wo= "<div>Woody</div>"
 
-                                teaListEntries += "<a href=\"#!\" class=\"collection-item avatar\" onclick=\"SelectTeaHerb('"+TeaList[i].latinbinomial + "')\">"
-                                    +"<i class=\'material-icons circle\'>"+"wikiphoto"+"</i>"
-                                    //+"<span id='"+ TeaList[i].commonname + "' class='title'>" + TeaList[i].commonname + "</span>"
-                                    +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
-                                    +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
-                                    +"<p id = >" + TeaList[i].plantpart + "</p>"
-                                    +"</a>"
-                                    +"</li>"
+                                    c1 = Bi + Sa + Sw + So + Um + Co + Ea + Fl + Fr
+                                    c2 = He + Ho + Nu + Pi + Pu + Sp + Su + Wo
+        
+                                    document.getElementById('teaFlavorC1').innerHTML = c1;
+                                    document.getElementById('teaFlavorC2').innerHTML = c2;
+                                }
+                                else{
+                                    imgurl =TeaList[i].latinbinomial
+                                    imgurl = imgurl.replaceAll(" ", '')
+                                    imgurl += ".jpg"
+                                    console.log("imgurl" + imgurl)
+
+                                    teaListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"SelectTeaHerb('"+TeaList[i].latinbinomial + "')\">"
+                                        +"<img src=/static/" + imgurl + " class='circle'></img>"
+                                        +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
+                                        +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
+                                        +"<p id = >" + TeaList[i].plantpart + "</p>"
+                                        +"</a>"
+                                        +"</li>"
+                                }
                             }
+                            
                             document.getElementById('teaListEntries').innerHTML = teaListEntries
                             // documentFragment.getElementById('teaFlavor').innerHTML = teaListEntries
                         } 
@@ -220,15 +291,66 @@ function RemoveFromTea() {
                             // currentHerb = TeaList[i]
                             // currentHerb= JSON.parse(TeaList[i])
                             currentHerb = TeaList[i]
+                            console.log("TEALIST[i]")
+                            console.log(TeaList[i].commonname)
+                            console.log(typeof TeaList[i].commonname)
+                            if(String(TeaList[i].commonname) == "TeaFlavors"){
+                                resetFlavors();
+                                if (TeaList[i].flavors.Bi >= 1)
+                                    Bi="<div>Bitter</div>"
+                                if (TeaList[i].flavors.Sa >= 1)
+                                    Sa= "<div>Salty</div>\n"
+                                if (TeaList[i].flavors.Sw >= 1)
+                                    Sw= "<div>Sweet</div>"
+                                if (TeaList[i].flavors.So >= 1)
+                                    So= "<div>Sour</div>"
+                                if (TeaList[i].flavors.Um >= 1)
+                                    Um= "<div>Umami</div>"
+                                if (TeaList[i].flavors.Co >= 1)
+                                    Co= "<div>Cooling</div>"
+                                if (TeaList[i].flavors.Ea >= 1)
+                                    Ea= "<div>Earthy</div>"
+                                if (TeaList[i].flavors.Fl >= 1)
+                                    Fl= "<div>Floral</div>"
+                                if (TeaList[i].flavors.Fr >= 1)
+                                    Fr= "<div>Fruit</div>";
+                                if (TeaList[i].flavors.He >= 1)
+                                    He="<div>Herbaceous</div>"
+                                if (TeaList[i].flavors.Ho >= 1)
+                                    Ho= "<div>Hot</div>"
+                                if (TeaList[i].flavors.Nu >= 1)
+                                    Nu= "<div>Nutty</div>"
+                                if (TeaList[i].flavors.Pi >= 1)
+                                    Pi= "<div>Piney</div>"
+                                if (TeaList[i].flavors.Pu >= 1)
+                                    Pu= "<div>Pungent</div>"
+                                if (TeaList[i].flavors.Sa >= 1)
+                                    Sp= "<div>Spicy</div>"        
+                                if (TeaList[i].flavors.Sp >= 1)
+                                    Su= "<div>Sulfury</div>"
+                                if (TeaList[i].flavors.Wo >= 1)
+                                    Wo= "<div>Woody</div>"
+                                    
+                                c1 = Bi + Sa + Sw + So + Um + Co + Ea + Fl + Fr
+                                c2 = He + Ho + Nu + Pi + Pu + Sp + Su + Wo
+    
+                                document.getElementById('teaFlavorC1').innerHTML = c1;
+                                document.getElementById('teaFlavorC2').innerHTML = c2;
+                            }
+                            else{
+                                imgurl =TeaList[i].latinbinomial
+                                imgurl = imgurl.replaceAll(" ", '')
+                                imgurl += ".jpg"
+                                console.log("imgurl" + imgurl)
 
-                            teaListEntries += "<a href=\"#!\" class=\"collection-item avatar\" onclick=\"SelectTeaHerb('"+ TeaList[i].commonname + "', '"+TeaList[i].latinbinomial + "')\">"
-                                +"<i class=\'material-icons circle\'>"+"wikiphoto"+"</i>"
-                                //+"<span id='"+ TeaList[i].commonname + "' class='title'>" + TeaList[i].commonname + "</span>"
-                                +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
-                                +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
-                                +"<p id = >" + TeaList[i].plantpart + "</p>"
-                                +"</a>"
-                                +"</li>"
+                                teaListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"SelectTeaHerb('"+ TeaList[i].commonname + "', '"+TeaList[i].latinbinomial + "')\">"
+                                    +"<img src=/static/" + imgurl + " class='circle'></img>"
+                                    +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
+                                    +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
+                                    +"<p id = >" + TeaList[i].plantpart + "</p>"
+                                    +"</a>"
+                                    +"</li>"
+                            }
                         }
                         document.getElementById('teaListEntries').innerHTML = teaListEntries
                     } 
