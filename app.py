@@ -15,6 +15,7 @@ melissaofficinalis = {
     "commonname": "Lemon Balm",
     "latinbinomial": "Melissa officinalis",
     "plantpart": "Leaf",
+    "image": "melissaofficinalis.jpg",
     "flavors":
         {
             "Bi": "0",
@@ -40,6 +41,7 @@ menthaspicata = {
     "commonname": "Spear Mint",
     "latinbinomial": "Mentha spicata",
     "plantpart": "Leaf",
+    "image": "menthaspicata.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -64,6 +66,7 @@ menthaspicata = {
 cinnamomumcassia = {"commonname": "Cassia",
     "latinbinomial": "Cinnamomum cassia",
     "plantpart": "Bark",
+    "image": "cinnamomumcassia.jpg",
     "flavors":
         {
             "Bi": "1",
@@ -89,6 +92,7 @@ phytolaccaamericana = {
     "commonname": "Poke",
     "latinbinomial": "Phytolacca americana",
     "plantpart": "Fruit",
+    "image": "phytolaccaamericana.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -114,6 +118,7 @@ hypericumperforatum = {
     "commonname": "St. John's Wort",
     "latinbinomial": "Hypericum perforatum",
     "plantpart": "Leaf",
+    "image": "hypericumperforatum.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -139,6 +144,7 @@ passifloraincarnata = {
     "commonname": "Passionflower",
     "latinbinomial": "Passiflora incarnata",
     "plantpart": "Leaf and Stem",
+    "image": "passifloraincarnata.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -164,6 +170,7 @@ centellaasiatica = {
     "commonname": "Gotu Kola",
     "latinbinomial": "Centella asiatica",
     "plantpart": "Leaf and Stem",
+    "image": "centellaasiatica.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -189,6 +196,7 @@ arctostaphylosuvaursi = {
     "commonname": "Kinnickinick",
     "latinbinomial": "Arctostaphylos uvaursi",
     "plantpart": "Leaf",
+    "image": "arctostaphylosuvaursi.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -214,6 +222,7 @@ curcumalonga = {
     "commonname": "Turmeric",
     "latinbinomial": "Curcuma longa",
     "plantpart": "Rhizome",
+    "image": "curcumalonga.jpg",
         "flavors":
         {
             "Bi": "1",
@@ -235,7 +244,6 @@ curcumalonga = {
             "Wo": "0"
         }
 }
-
 TeaFlavors = {
     "commonname": "TeaFlavors",
     "flavors":
