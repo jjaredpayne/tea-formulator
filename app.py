@@ -261,7 +261,7 @@ TeaFlavors = {
     }
 }
 HerbList = []
-TeaList = []
+TeaList = [TeaFlavors]
 
 @app.route("/", methods=['GET', 'POST'])
 def teamain():
@@ -284,7 +284,7 @@ def teamain():
 @app.route("/AddToTea", methods=['GET', 'POST'])
 def addHerb():
     if request.method == "GET":
-        addedHerb = request.args.get('fullHerb', '')
+        addedHerb = request.args.get('herbToAdd', '')
         addedHerb = addedHerb.replace("'", '"')
         herbJSON = json.loads(addedHerb)
         TeaList.append(herbJSON)

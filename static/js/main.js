@@ -77,7 +77,10 @@ function SelectTeaHerb( latinbinomial ){
 function UpdateFlavorTab ( parsedHerb, TeaOrHerb ){
     resetFlavors();
 
-    parsedHerb = JSON.parse(Herb.replaceAll("'", '"'));
+    console.log("parsedHerb" + parsedHerb)
+    if ( TeaOrHerb == "Herb"){
+        parsedHerb = JSON.parse(parsedHerb.replaceAll("'", '"'));
+    }
     if (parsedHerb.flavors.Bi == 1)
         Bi="<div>Bitter</div>"
     if (parsedHerb.flavors.Sa == 1)
