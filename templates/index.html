@@ -3,26 +3,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Compiled CSS -->
 		<link rel="stylesheet" href="/static/css/materialize.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 
-	<body class = "body brown">
+	<body class = "body white">
 		<div class="container">
 			<div class="row">
 				<!--============================================-->
 				<!-- Begin Column 1: Pick an herb			  	-->
 				<!--============================================-->
 				<div class="col s4">
-					<div class="card orange lighten-5 small">
-						<div class="card-content">
-							<h5 class="center">1. Pick an Herb</h5>
-							<p>a. Use the drop down menus below to filter the herb list.</p>
-							<p>b. Click an herb from the list to select it, and click the Load Info button to view information about that herb!</p>
-						</div>
-					</div>
-					<div class="card orange lighten-5" style="height:350px">
-						<span class="card-title center-align">Filter By...</span>
+							<ul class="collapsible yellow lighten-5">
+								<li>
+								  <div class="collapsible-header yellow lighten-5"><i class="material-icons">help</i>1. Pick an Herb</div>
+								  <div class="collapsible-body"><span>Use the drop down menus below to filter the herb list. Thenm click an herb from the list to view some information</span></div>
+								</li>
+							</ul>
+					<div class="card yellow lighten-5" style="height:350px">
+						<span class="card-title"><p>Filter By...</p></span>
 						<div class="input-field col s12 vertical-align">
-							<select id="FlavorSelect">
+							<select id="FlavorSelect" onchange="FlavorFilter(this.value)">
 							<option value="" disabled selected>Select</option>
 							<option value="1">Bitter</option>
 							<option value="2">Salty</option>
@@ -66,11 +66,11 @@
 					<!--============================================-->
 					<!-- Populate Herblist with objects from app.py -->
 					<!--============================================-->
-					<div class="card orange lighten-5 " style="height: 500px; overflow-y: auto;">
-						<span class="card-title center-align ">Click an herb to view info.</span>
-						<ul class="collection orange lighten-5 .input-field">
+					<div class="card yellow lighten-5 " style="height: 500px; overflow-y: auto;">
+						<span class="card-title center-align "><p>Click an herb to view info.</p></span>
+						<ul class="collection yellow lighten-5 .input-field">
 							{% for Herb in HerbList %}
-							<a href="#!" id = '{{ Herb.commonname }}_l' class="collection-item avatar orange lighten-5" onclick='SelectHerb("{{ Herb }}")'>
+							<a href="#!" id = '{{ Herb.commonname }}_l' class="collection-item avatar yellow lighten-5" onclick='SelectHerb("{{ Herb }}")'>
 								<img src='/static/{{ Herb.image }}' class='circle'></img>
 								<span id='{{ Herb.commonname }}' class="title">{{ Herb.commonname }}</span>
 								<p id ='{{ Herb.latinbinomial }}'>{{ Herb.latinbinomial }}</p>
@@ -78,7 +78,7 @@
 							</a>
 							{% endfor %}
 						</li>
-					<!--============================================-->
+					<!--End=========================================-->
 						</ul>
 					</div>
 					<!-- <div class="center padding=2">
@@ -90,24 +90,23 @@
 				<!-- Begin Column 2: View Info and Add		  	-->
 				<!--============================================-->
 				<div class="col s4">
-					<div class="card orange lighten-5  small">
-						<div class="card-content">
-							<h5 class="center">2. View Info and Add</h5>
-							<p>View herbal info below! After viewing the photo, botanical information, and the herb’s flavor profile, you can add the herb to the tea by clicking the Add Herb button.</p>
-						</div>
-					</div>
-
-					<div class="card orange lighten-5" style="height:350px" >
-						<span class="card-title center-align ">This Herb Profile</span>
+					<ul class="collapsible yellow lighten-5">
+						<li>
+						  <div class="collapsible-header yellow lighten-5"><i class="material-icons">help</i>2. View Info and Add</div>
+						  <div class="collapsible-body"><span>a. View herbal info below! After viewing the photo, botanical information, and the herb’s flavor profile, you can add the herb to the tea by clicking the Add Herb button.</span></div>
+						</li>
+					</ul>
+					<div class="card yellow lighten-5" style="height:350px" >
+						<span class="card-title center"><p class="center">This Herb Profile</p></span>
 						<div class="card-content, offset-m1" style="margin: 5px">
-							<div class="card-tabs orange lighten-4">
+							<div class="card-tabs">
 								<ul class="tabs tabs-fixed-width orange lighten-4">
 									<li class="tab col"><a href="#flavorTab2"><span class="black-text">Flavors</span></a></li>
 									<li class="tab col"><span class="grey-text">Action</span></li>
 									<li class="tab col"><span class="grey-text">Energetics</span></li>
 								</ul>
 							</div>
-							<div class="card-content offset-m12 orange lighten-5" style="padding: 5px !important">
+							<div class="card-content offset-m12 yellow lighten-5" style="padding: 5px !important">
 								<div class="row">
 									<div id="herbFlavorC1" class="col s6 center-align">
 										<div> &nbsp</div>
@@ -143,15 +142,13 @@
 							</div>
 						</div>
 					</div>
-					<div class="card orange lighten-5 large" onclick="AddToTea()">
-						<span class="card-title center-align">Click to add herb to your tea.</span>
+					<div class="card yellow lighten-5 large" onclick="AddToTea()" style = "overflow-y: auto">
+						<span class="card-title center-align"><p class="center">Click to add herb to your tea.</p></span>
 						<div class="card-image">
-							<img id = "herbImage" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+							<img id = "herbImage" class="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
 							<span id = "herbName" class="card-title"></span>
 						  </div>
-						  <div class="card-content">
-							<p id="herbText">
-							</p>
+						  <div class="card-content" id = "herbText" style="padding-bottom: 200px">
 						  </div>
 					</div>
 					<!-- <div class="center padding=2">
@@ -163,14 +160,14 @@
 				<!-- Begin Column 3: Review your tea		  	-->
 				<!--============================================-->
 				<div class="col s4">
-					<div class="card orange lighten-5  small">
-						<div class="card-content">
-							<h5 class="center">3. Review your tea.</h5>
-							<p>Review the flavor profile of your tea, and its ingredients! The flavor profile is automatically updated when a an herb is added or removed. You may remove an herb by selecting it from the list and clicking the Remove Herb button.</p>
-						</div>
-					</div>
-					<div class="card orange lighten-5" style="height:350px">
-						<span class="card-title center-align">Your Tea Profile</span>
+					<ul class="collapsible yellow lighten-5">
+						<li>
+						  <div class="collapsible-header yellow lighten-5"><i class="material-icons">help</i>3. Review your tea.</div>
+						  <div class="collapsible-body"><span>Review the flavor profile of your tea, and its ingredients! The flavor profile is automatically updated when a an herb is added or removed. You may remove an herb by selecting it from the list and clicking the Remove Herb button.</span></div>
+						</li>
+					</ul>
+					<div class="card yellow lighten-5" style="height:350px">
+						<span class="card-title"><p>Your Tea Profile</p></span>
 						<div class="card-content, offset-m1" style="margin: 5px">
 							<div class="card-tabs">
 								<ul class="tabs tabs-fixed-width orange lighten-4">
@@ -179,10 +176,10 @@
 									<li class="tab col"><span class="grey-text">Energetics</span></li>
 								</ul>
 							</div>
-							<div class="card-content orange lighten-5" style="padding: 5px !important">
+							<div class="card-content yellow lighten-5" style="padding: 5px !important">
 								<div id="teaFlavor" class="row">
 									<div id="teaFlavorC1" class="col s6 center-align">
-										<div>  &nbsp</div>
+										<div> &nbsp</div>
 										<div> &nbsp</div>
 										<div> &nbsp</div>
 										<div> &nbsp</div>
@@ -215,23 +212,24 @@
 						</div>
 					</div>
 
-					<div class="card orange lighten-5 " style="height: 500px; overflow-y: auto;">
-						<span class="card-title">Click an herb to remove it.</span>
+					<div class="card yellow lighten-5 " style="height: 500px; overflow-y: auto;">
+						<span class="card-title"><p>Click an herb to remove it.</p></span>
 						<!--============================================-->
-						<!-- Populate TeaList with objects from app.py -->
+						<!-- Populate TeaList with objects from app.py  -->
 						<!--============================================-->
 						<ul id= "teaListEntries" class="collection green .input-field">
 		
 						</ul>
-						<!--============================================-->
+						<!--End=========================================-->
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Compiled and JavaScript -->
+		<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
 		<script type = "text/javascript" src="/static/js/main.js"></script>
-		<script type = "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
 		<script>
 			$(document).ready(function() {
 			   $('select').formSelect();
@@ -242,5 +240,10 @@
 				$('.tabs').tabs();
 			});
 		 </script>
+		<script>
+			$(document).ready(function(){
+				$('.collapsible').collapsible();
+			});
+		</script>
 	</body>
 </html>
