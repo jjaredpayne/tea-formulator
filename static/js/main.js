@@ -28,7 +28,7 @@ var wikiURL = 'http://127.0.0.1:5001/';
 
 // Resets html elements, so flavor list can be repopulated.
 function resetFlavors () {
-    Bi = "<div> &nbsp </div>"
+    Bi = "<div> &nbsp</div>"
     Sa = "<div> &nbsp</div>"
     Sw = "<div> &nbsp</div>"
     So = "<div> &nbsp</div>"
@@ -53,11 +53,13 @@ function SelectHerb( Herb ){
     return new Promise(function(resolve, reject){
         console.log( Herb )
         herbToAdd = Herb;
-        console.log(herbToAdd)
-        selectedHerb = JSON.parse(Herb.replaceAll("'", '"'));
+        console.log("HERB STRING: " );
+        selectedHerb = Herb;
         selectedHerbName = selectedHerb.commonname;
+        console.log("selectedHerbName" + selectedHerbName)
         selectedlatinbinomial = decodeURI(selectedHerb.latinbinomial);
         selectedlatinbinomial = selectedlatinbinomial.replace(/\s+/g, '');
+        console.log("selectedHerbBinomial" + selectedlatinbinomial)
         selectedHerbPlantPart = selectedHerb.plantpart;
         UpdateHerbInfo( Herb )
     });
@@ -77,53 +79,50 @@ function SelectTeaHerb( latinbinomial ){
 function UpdateFlavorTab ( parsedHerb, TeaOrHerb ){
     resetFlavors();
 
-    console.log("parsedHerb" + parsedHerb)
-    if ( TeaOrHerb == "Herb"){
-        parsedHerb = JSON.parse(parsedHerb.replaceAll("'", '"'));
-    }
-    if (parsedHerb.flavors.Bi == 1)
+    parsedHerb = JSON.parse(parsedHerb);
+    if (parsedHerb.flavors.Bi >= 1)
         Bi="<div>Bitter</div>"
-    if (parsedHerb.flavors.Sa == 1)
+    if (parsedHerb.flavors.Sa >= 1)
         Sa= "<div>Salty</div>"
-    if (parsedHerb.flavors.Sw == 1)
+    if (parsedHerb.flavors.Sw >= 1)
         Sw= "<div>Sweet</div>"
-    if (parsedHerb.flavors.So == 1)
+    if (parsedHerb.flavors.So >= 1)
         So= "<div>Sour</div>"
-    if (parsedHerb.flavors.Um == 1)
+    if (parsedHerb.flavors.Um >= 1)
         Um= "<div>Umami</div>"
-    if (parsedHerb.flavors.Co == 1)
+    if (parsedHerb.flavors.Co >= 1)
         Co= "<div>Cooling</div>"
-    if (parsedHerb.flavors.Ea == 1)
+    if (parsedHerb.flavors.Ea >= 1)
         Ea= "<div>Earthy</div>"
-    if (parsedHerb.flavors.Fl == 1)
+    if (parsedHerb.flavors.Fl >= 1)
         Fl= "<div>Floral</div>"
-    if (parsedHerb.flavors.Fr == 1)
+    if (parsedHerb.flavors.Fr >= 1)
         Fr= "<div>Fruit</div>";
-    if (parsedHerb.flavors.He == 1)
+    if (parsedHerb.flavors.He >= 1)
         He="<div>Herbaceous</div>"
-    if (parsedHerb.flavors.Ho == 1)
+    if (parsedHerb.flavors.Ho >= 1)
         Ho= "<div>Hot</div>"
-    if (parsedHerb.flavors.Nu == 1)
+    if (parsedHerb.flavors.Nu >= 1)
         Nu= "<div>Nutty</div>"
-    if (parsedHerb.flavors.Pi == 1)
+    if (parsedHerb.flavors.Pi >= 1)
         Pi= "<div>Piney</div>"
-    if (parsedHerb.flavors.Pu == 1)
+    if (parsedHerb.flavors.Pu >= 1)
         Pu= "<div>Pungent</div>"
-    if (parsedHerb.flavors.Sa == 1)
+    if (parsedHerb.flavors.Sa >= 1)
         Sp= "<div>Spicy</div>"        
-    if (parsedHerb.flavors.Sp == 1)
+    if (parsedHerb.flavors.Sp >= 1)
         Su= "<div>Sulfury</div>"
-    if (parsedHerb.flavors.Wo == 1)
+    if (parsedHerb.flavors.Wo >= 1)
         Wo= "<div>Woody</div>"
 
     c1 = Bi + Sa + Sw + So + Um + Co + Ea + Fl + Fr
     c2 = He + Ho + Nu + Pi + Pu + Sp + Su + Wo
 
-    if ( TeaOrHerb == "Herb" ){
+    if ( TeaOrHerb == "herb" ){
         document.getElementById('herbFlavorC1').innerHTML = c1;
         document.getElementById('herbFlavorC2').innerHTML = c2;
     }
-    if( TeaOrHerb == "Tea" ){
+    if( TeaOrHerb == "tea" ){
         document.getElementById('teaFlavorC1').innerHTML = c1;
         document.getElementById('teaFlavorC2').innerHTML = c2;
     }
@@ -133,13 +132,15 @@ function UpdateFlavorTab ( parsedHerb, TeaOrHerb ){
 function UpdateHerbInfo( Herb ){
     console.log("UpdateHerbInfo")
     return new Promise(function(resolve, reject){
+        console.log("selectedlatinbinomial" +  selectedlatinbinomial)
+        console.log("selectedHerbName: " + selectedHerbName)
         document.getElementById('herbImage').src = "static/" + selectedlatinbinomial + ".jpg";
         document.getElementById('herbName').innerText = selectedHerbName;
         //document.getElementById('herbText').innerText = RequestWikiText(Herb)
-        RequestWikiText(Herb)
+        RequestWikiText(JSON.stringify(Herb))
 
         // flavorHerb = JSON.parse(Herb.replaceAll("'", '"'));
-        UpdateFlavorTab( Herb, "Herb" );
+        UpdateFlavorTab( JSON.stringify(Herb), "herb" );
     });
 };
 
@@ -147,8 +148,8 @@ http://wiki.sheep.art.pl/Wiki%20Markup%20Parser%20in%20Python
 function RequestWikiText( Herb ){
     return new Promise(function(resolve, reject){
         var req = new XMLHttpRequest();
-        console.log(JSON.parse(Herb.replaceAll("'", '"')));
-        parsedHerb = JSON.parse(Herb.replaceAll("'", '"'))
+        console.log(JSON.parse(Herb));
+        parsedHerb = JSON.parse(Herb)
         reqURL = wikiURL + 'requestText' + '?wikipage=' + parsedHerb.latinbinomial + '&heading=Description';
         console.log(reqURL);
         req.open('GET', reqURL, true);
@@ -184,7 +185,7 @@ function AddToTea() {
         //var parsedFullHerb = JSON.parse(fullHerb.replaceAll("'", '"'));    
         var req = new XMLHttpRequest();
 
-        reqURL = indexUrl + 'AddToTea' + '?herbToAdd=' + herbToAdd;
+        reqURL = indexUrl + 'AddToTea' + '?herbToAdd=' + JSON.stringify(herbToAdd);
         console.log('reqURL:', reqURL);
         req.open('GET', reqURL, true);
         req.addEventListener("load", function () {
@@ -193,7 +194,7 @@ function AddToTea() {
                     var TeaList = req.responseText;
                     TeaList = JSON.parse(TeaList)
 
-                    DrawTeaList( TeaList );
+                    DrawList( TeaList, 'tea' );
                 } 
                 else {
                     console.log('error: reponse empty');
@@ -222,7 +223,7 @@ function RemoveFromTea( tealatinbinomial ) {
                     var TeaList = req.responseText;
                     TeaList = JSON.parse(TeaList)
 
-                    DrawTeaList( TeaList );
+                    DrawList( TeaList, 'tea' );
                 } 
                 else {
                     console.log('error: reponse empty');
@@ -236,27 +237,40 @@ function RemoveFromTea( tealatinbinomial ) {
     });
 };
 
-function DrawTeaList( TeaList ){
-    var teaListEntries =  ''
-    //Loop through TeaList and update HTML
-    for (var i = 0; i < TeaList.length ; i++){
-        currentHerb = TeaList[i]
-        if(String(TeaList[i].commonname) == "TeaFlavors"){
-            UpdateFlavorTab( TeaList[i], "Tea" );
+function DrawList( List, TeaOrHerb ){
+    var ListEntries =  ''
+    //Loop through List and update HTML
+    console.log(typeof List)
+    console.log(List)
+
+    for (var i = 0; i < List.length ; i++){
+        currentHerb = List[i]
+        if(String(List[i].commonname) == "TeaFlavors"){
+            console.log(JSON.stringify(List[i]))
+            UpdateFlavorTab( JSON.stringify(List[i]), "tea" );
         }
         else{
-            imgurl =TeaList[i].latinbinomial
+            imgurl = List[i].latinbinomial
+            imgurl = String(imgurl)
             imgurl = imgurl.replaceAll(" ", '')
             imgurl += ".jpg"
 
-            teaListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"SelectTeaHerb('"+ TeaList[i].commonname + "', '"+TeaList[i].latinbinomial + "')\">"
-                +"<img src=/static/" + imgurl + " class='circle'></img>"
-                +"<span id='TeaList.commonname' class='title'>" + TeaList[i].commonname + "</span>"
-                +"<p id ='" + TeaList[i].latinbinomial + "'>'" +  TeaList[i].latinbinomial + "'</p>"
-                +"<p id = >" + TeaList[i].plantpart + "</p>"
-                +"</a>"
-                +"</li>"
+            if (TeaOrHerb == "herb")
+                ListEntries += '<a href=\'#!\' class=\'collection-item avatar orange lighten-5\' onclick=\'SelectHerb('+ JSON.stringify(List[i]) +')\'>'
+            else
+                ListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"SelectTeaHerb('"+ List[i].commonname + "', '" + List[i].latinbinomial + "')\">"
+
+            ListEntries += "<img src=/static/" + imgurl + " class='circle'></img>"
+            +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
+            +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
+            +"<p id = >" + List[i].plantpart + "</p>"
+            +"</a>"
+            +"</li>"
         }
     }
-    document.getElementById('teaListEntries').innerHTML = teaListEntries
+    console.log(ListEntries)
+    if (TeaOrHerb == "herb")
+        document.getElementById('herbListMembers').innerHTML = ListEntries
+    if (TeaOrHerb == "tea")
+        document.getElementById('teaListMembers').innerHTML = ListEntries
 }

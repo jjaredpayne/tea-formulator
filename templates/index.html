@@ -6,7 +6,7 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 
-	<body class = "body white">
+	<body class = "body white" onload='DrawList( {{ HerbList | tojson }}, "herb")''>
 		<div class="container">
 			<div class="row">
 				<!--============================================-->
@@ -68,16 +68,8 @@
 					<!--============================================-->
 					<div class="card yellow lighten-5 " style="height: 500px; overflow-y: auto;">
 						<span class="card-title center-align "><p>Click an herb to view info.</p></span>
-						<ul class="collection yellow lighten-5 .input-field">
-							{% for Herb in HerbList %}
-							<a href="#!" id = '{{ Herb.commonname }}_l' class="collection-item avatar yellow lighten-5" onclick='SelectHerb("{{ Herb }}")'>
-								<img src='/static/{{ Herb.image }}' class='circle'></img>
-								<span id='{{ Herb.commonname }}' class="title">{{ Herb.commonname }}</span>
-								<p id ='{{ Herb.latinbinomial }}'>{{ Herb.latinbinomial }}</p>
-								<p>	{{ Herb.plantpart }}</p>
-							</a>
-							{% endfor %}
-						</li>
+						<ul class="collection yellow lighten-5" id="herbListMembers">
+
 					<!--End=========================================-->
 						</ul>
 					</div>
@@ -216,7 +208,7 @@
 						<!--============================================-->
 						<!-- Populate TeaList with objects from app.py  -->
 						<!--============================================-->
-						<ul id= "teaListEntries" class="collection green .input-field">
+						<ul id= "teaListMembers" class="collection green .input-field">
 		
 						</ul>
 						<!--End=========================================-->

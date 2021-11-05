@@ -309,8 +309,7 @@ def modTeaFlavor(action, herbJSON):
             if herbJSON['flavors'][flavor] == "1":
                 TeaFlavors['flavors'][flavor] -= 1
                 print("added 1 to: " + flavor)
-                print("TeaTotal flavor: "+ str(TeaFlavors['flavors'][flavor]))
-
+                print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
     
 @app.route("/RemoveFromTea", methods=['GET', 'POST'])
 def removeHerb():
@@ -325,5 +324,6 @@ def removeHerb():
                 TeaList.remove(herb)
                 print("Herb Removed " + str(herb))
         print("After Removal" + str(TeaList))
+    modTeaFlavor("subtract", herb)
 
     return jsonify(TeaList)
