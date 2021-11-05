@@ -23,7 +23,8 @@ var Sp = "<div> &nbsp</div>"
 var Su = "<div> &nbsp</div>"
 var Wo = "<div> &nbsp</div>"
 
-var indexUrl = 'http://127.0.0.1:5001/';
+var indexUrl = 'http://127.0.0.1:5000/';
+var wikiURL = 'http://127.0.0.1:5001/';
 
 // Resets html elements, so flavor list can be repopulated.
 function resetFlavors () {
@@ -50,7 +51,9 @@ function resetFlavors () {
 // Passes Herb object for further processing.
 function SelectHerb( Herb ){
     return new Promise(function(resolve, reject){
+        console.log( Herb )
         herbToAdd = Herb;
+        console.log(herbToAdd)
         selectedHerb = JSON.parse(Herb.replaceAll("'", '"'));
         selectedHerbName = selectedHerb.commonname;
         selectedlatinbinomial = decodeURI(selectedHerb.latinbinomial);
@@ -73,6 +76,8 @@ function SelectTeaHerb( latinbinomial ){
 // Updates the HTML on the specified Flavor tab (herb or tea)
 function UpdateFlavorTab ( parsedHerb, TeaOrHerb ){
     resetFlavors();
+
+    parsedHerb = JSON.parse(Herb.replaceAll("'", '"'));
     if (parsedHerb.flavors.Bi == 1)
         Bi="<div>Bitter</div>"
     if (parsedHerb.flavors.Sa == 1)
@@ -130,8 +135,8 @@ function UpdateHerbInfo( Herb ){
         //document.getElementById('herbText').innerText = RequestWikiText(Herb)
         RequestWikiText(Herb)
 
-        flavorHerb = JSON.parse(Herb.replaceAll("'", '"'));
-        UpdateFlavorTab( flavorHerb, "Herb" );
+        // flavorHerb = JSON.parse(Herb.replaceAll("'", '"'));
+        UpdateFlavorTab( Herb, "Herb" );
     });
 };
 
@@ -141,7 +146,7 @@ function RequestWikiText( Herb ){
         var req = new XMLHttpRequest();
         console.log(JSON.parse(Herb.replaceAll("'", '"')));
         parsedHerb = JSON.parse(Herb.replaceAll("'", '"'))
-        reqURL = indexUrl + 'requestText' + '?wikipage=' + parsedHerb.latinbinomial + '&heading=Description';
+        reqURL = wikiURL + 'requestText' + '?wikipage=' + parsedHerb.latinbinomial + '&heading=Description';
         console.log(reqURL);
         req.open('GET', reqURL, true);
         req.addEventListener("load", function () {
