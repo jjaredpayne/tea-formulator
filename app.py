@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import json
 import urllib.parse
+import requests
+import wikipedia
+import base64
 
 app = Flask(__name__)
 
@@ -28,7 +31,8 @@ melissaofficinalis = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 menthaspicata = {
     "commonname": "Spear Mint",
@@ -54,9 +58,11 @@ menthaspicata = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
-cinnamomumcassia = {"commonname": "Cassia",
+cinnamomumcassia = {
+    "commonname": "Cassia",
     "latinbinomial": "Cinnamomum cassia",
     "plantpart": "Bark",
     "image": "cinnamomumcassia.jpg",
@@ -79,7 +85,8 @@ cinnamomumcassia = {"commonname": "Cassia",
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 phytolaccaamericana = {
     "commonname": "Poke",
@@ -105,7 +112,8 @@ phytolaccaamericana = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 hypericumperforatum = {
     "commonname": "St. John's Wort",
@@ -131,7 +139,8 @@ hypericumperforatum = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 passifloraincarnata = {
     "commonname": "Passionflower",
@@ -157,7 +166,8 @@ passifloraincarnata = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 centellaasiatica = {
     "commonname": "Gotu Kola",
@@ -183,13 +193,14 @@ centellaasiatica = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 arctostaphylosuvaursi = {
     "commonname": "Kinnickinick",
-    "latinbinomial": "Arctostaphylos uvaursi",
+    "latinbinomial": "Arctostaphylos uva-ursi",
     "plantpart": "Leaf",
-    "image": "arctostaphylosuvaursi.jpg",
+    "image": "arctostaphylosuva-ursi.jpg",
     "flavors":
     {
         "Bi": "1",
@@ -209,7 +220,8 @@ arctostaphylosuvaursi = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 curcumalonga = {
     "commonname": "Turmeric",
@@ -235,7 +247,8 @@ curcumalonga = {
         "Sp": "0",
         "Su": "0",
         "Wo": "0"
-    }
+    },
+    "base64Image": ""
 }
 TeaFlavors = {
     "commonname": "TeaFlavors",
@@ -258,14 +271,19 @@ TeaFlavors = {
         "Sp": 0,
         "Su": 0,
         "Wo": 0
-    }
+    },
+    "base64Image": ""
 }
 HerbList = []
 TeaList = [TeaFlavors]
 
+def getWikiImage(wikiUrl):
+    wikiText = requests.get('https://wikipedia-image-scraper.azurewebsites.net/getFirstImage?WikiUrl=' + wikiUrl )
+    return wikiText.json()
+
 @app.route("/", methods=['GET', 'POST'])
 def teamain():
-
+    print("are updates being reflected?")
     HerbList.append(melissaofficinalis)
     HerbList.append(menthaspicata)
     HerbList.append(cinnamomumcassia)
@@ -276,8 +294,32 @@ def teamain():
     HerbList.append(arctostaphylosuvaursi)
     HerbList.append(curcumalonga)
 
-    print("HerbList " + str(HerbList))
+    # for herb in HerbList:
+        # wikipage = herb['latinbinomial']
+        # # Perform search for the wikipage (places results in
+        # # an array)
+        # result = wikipedia.search(wikipage)
 
+        # # if the first result doesn't work, use the 2nd result
+        # # if neither work, return an error
+        # try:
+        #     try:
+        #         page = wikipedia.page(result[0])
+        #     except:
+        #         page = wikipedia.page(result[1])
+        # except:
+        #     return "Error. Wikipedia page not found."
+        # wikiImageObject = getWikiImage(page.url)
+        # print(wikiImageObject)
+        # print(type(wikiImageObject))
+        # # wikiImageObject = wikiImageObject.decode('utf8')
+        # # print(type(wikiImageObject))
+        # # wikiImageObject = jsonify(wikiImageObject)
+        # # print(type(wikiImageObject))
+        # # wikiImageObject = wikiImageObject.json()
+        # # print(type(wikiImageObject))
+        # herb['base64Image'] = wikiImageObject['firstImage']['base64']
+        # print(herb)
     # Send herb dict object with render
     return render_template("index.html", HerbList=HerbList)
 
@@ -287,6 +329,7 @@ def addHerb():
         addedHerb = request.args.get('herbToAdd', '')
         addedHerb = addedHerb.replace("'", '"')
         herbJSON = json.loads(addedHerb)
+        print("addedHerb" + addedHerb)
         TeaList.append(herbJSON)
         # print("HERBJSON\n")
         # print(herbJSON)
@@ -299,31 +342,32 @@ def addHerb():
 
 def modTeaFlavor(action, herbJSON):
     if action == "add":
+        print(type(herbJSON))
         for flavor in TeaFlavors['flavors']:
             if herbJSON['flavors'][flavor] == "1":
                 TeaFlavors['flavors'][flavor] += 1
                 print("added 1 to: " + flavor)
-                print("TeaTotal flavor: "+ str(TeaFlavors['flavors'][flavor]))
+                print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
     if action == "subtract":
         for flavor in TeaFlavors['flavors']:
             if herbJSON['flavors'][flavor] == "1":
                 TeaFlavors['flavors'][flavor] -= 1
-                print("added 1 to: " + flavor)
-                print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
+                # print("added 1 to: " + flavor)
+                # print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
     
 @app.route("/RemoveFromTea", methods=['GET', 'POST'])
 def removeHerb():
     if request.method == "GET":
         latinbinomial = request.args.get('latinbinomial', '')
-        print(latinbinomial)
-        print(type(latinbinomial))
+        # print(latinbinomial)
+        # print(type(latinbinomial))
         for herb in TeaList:
-            print(herb)
-            print(type(str(herb)))
+            # print(herb)
+            # print(type(str(herb)))
             if latinbinomial in str(herb):
                 TeaList.remove(herb)
-                print("Herb Removed " + str(herb))
-        print("After Removal" + str(TeaList))
+                # print("Herb Removed " + str(herb))
+        # print("After Removal" + str(TeaList))
     modTeaFlavor("subtract", herb)
 
     return jsonify(TeaList)

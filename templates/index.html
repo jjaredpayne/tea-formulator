@@ -133,7 +133,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="card yellow lighten-5 large" onclick="AddToTea()">
+					<div class="card yellow lighten-5 large" id="herbInfoCard" onclick="AddToTea()">
 						<div class="card-image">
 							<img id = "herbImage" class="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
 							<span id = "herbName" class="card-title"></span>
@@ -142,7 +142,7 @@
 						  </div>
 					</div>
 					<!-- <div class="center padding=2">
-						<a class="waves-effect waves-light btn-large center" id="addToTeaButton" onclick="AddToTea()">Add to Tea</a>
+						<a class="waves-effect waves-light btn-large center" id="addToTeaButton" onclick="SelectTeaHerb()">Add to Tea</a>
 					</div> -->
 				</div>
 
@@ -234,5 +234,11 @@
 				$('.collapsible').collapsible();
 			});
 		</script>
+		<script type="text/javascript">// <![CDATA[
+			function loading(){
+				$("#loading").show();
+				$("#content").hide();       
+			}
+	// ]]></script>
 	</body>
 </html>

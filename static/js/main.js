@@ -2,7 +2,7 @@ var selectedHerbName = "Lemon Balm";
 var selectedHerbText = "Lemon balm (Melissa officinalis)[note 1] is a perennial herbaceous plant in the mint family and native to south-central Europe, the Mediterranean Basin, Iran, and Central Asia, but now naturalized elsewhere.";
 var selectedlatinbinomial = "Melissa officinalis"
 var selectedHerb = ''
-var herbToAdd = ''
+// var herbToAdd = ''
 
 //Flavor attributes
 var Bi = "<div> </div>"
@@ -24,7 +24,7 @@ var Su = "<div> &nbsp</div>"
 var Wo = "<div> &nbsp</div>"
 
 var indexUrl = 'http://127.0.0.1:5000/';
-var wikiURL = 'http://127.0.0.1:5001/';
+var wikiURL = 'https://wiki-text-scraper-361.herokuapp.com/';
 
 // Resets html elements, so flavor list can be repopulated.
 function resetFlavors () {
@@ -51,27 +51,16 @@ function resetFlavors () {
 // Passes Herb object for further processing.
 function SelectHerb( Herb ){
     return new Promise(function(resolve, reject){
-        console.log( Herb )
         herbToAdd = Herb;
-        console.log("HERB STRING: " );
         selectedHerb = Herb;
         selectedHerbName = selectedHerb.commonname;
-        console.log("selectedHerbName" + selectedHerbName)
         selectedlatinbinomial = decodeURI(selectedHerb.latinbinomial);
         selectedlatinbinomial = selectedlatinbinomial.replace(/\s+/g, '');
-        console.log("selectedHerbBinomial" + selectedlatinbinomial)
+        print("selectedlatinbinomial" + selectedlatinbinomial)
+        print("selectedherb" + selectedHerb)
+        print("herbToAdd" + herbToAdd)
         selectedHerbPlantPart = selectedHerb.plantpart;
         UpdateHerbInfo( Herb )
-    });
-};
-
-// When TeaList item is clicked, item is selected and immediately removed
-// Only the latinbinomial string is needed for ID
-function SelectTeaHerb( latinbinomial ){
-    return new Promise(function(resolve, reject){
-        tealatinbinomial = latinbinomial
-        console.log(tealatinbinomial);
-        RemoveTeaHerb(tealatinbinomial)
     });
 };
 
@@ -128,35 +117,30 @@ function UpdateFlavorTab ( parsedHerb, TeaOrHerb ){
     }
 }
 
-// Updates the information on the Herb Info card.
+// Updates the HTML for information on the Herb Info card.
 function UpdateHerbInfo( Herb ){
-    console.log("UpdateHerbInfo")
     return new Promise(function(resolve, reject){
-        console.log("selectedlatinbinomial" +  selectedlatinbinomial)
-        console.log("selectedHerbName: " + selectedHerbName)
-        document.getElementById('herbImage').src = "static/" + selectedlatinbinomial + ".jpg";
-        document.getElementById('herbName').innerText = selectedHerbName;
-        //document.getElementById('herbText').innerText = RequestWikiText(Herb)
-        RequestWikiText(JSON.stringify(Herb))
 
-        // flavorHerb = JSON.parse(Herb.replaceAll("'", '"'));
+        document.getElementById('herbInfoCard').onclick = function(){ AddToTea(Herb); };
+        document.getElementById('herbImage').src = "data:image/jpg;base64," + Herb.base64Image;
+        document.getElementById('herbName').innerText = selectedHerbName;
+
+        RequestWikiText(JSON.stringify(Herb))
         UpdateFlavorTab( JSON.stringify(Herb), "herb" );
     });
 };
 
-http://wiki.sheep.art.pl/Wiki%20Markup%20Parser%20in%20Python
 function RequestWikiText( Herb ){
     return new Promise(function(resolve, reject){
         var req = new XMLHttpRequest();
-        console.log(JSON.parse(Herb));
         parsedHerb = JSON.parse(Herb)
         reqURL = wikiURL + 'requestText' + '?wikipage=' + parsedHerb.latinbinomial + '&heading=Description';
-        console.log(reqURL);
         req.open('GET', reqURL, true);
         req.addEventListener("load", function () {
             if (req.status >= 200 && req.status < 400) {
                 if (req.responseText !== '') {
-                    document.getElementById('herbText').innerText = req.responseText
+                    decodedText = JSON.parse(req.responseText)
+                    document.getElementById('herbText').innerText = decodedText['wikitext']
                 } 
                 else {
                     console.log('error: reponse empty');
@@ -170,7 +154,6 @@ function RequestWikiText( Herb ){
     });
 };
 
-
 // 
 function RemoveTeaHerb( latinbinomial ){
     return new Promise(function(resolve, reject){
@@ -180,11 +163,9 @@ function RemoveTeaHerb( latinbinomial ){
 };
 
 // Sends request including which herb to add to the TeaList. Recieves TeaList and redraws it.
-function AddToTea() {
+function AddToTea( herbToAdd) {
     return new Promise(function (resolve, reject) {
-        //var parsedFullHerb = JSON.parse(fullHerb.replaceAll("'", '"'));    
         var req = new XMLHttpRequest();
-
         reqURL = indexUrl + 'AddToTea' + '?herbToAdd=' + JSON.stringify(herbToAdd);
         console.log('reqURL:', reqURL);
         req.open('GET', reqURL, true);
@@ -208,21 +189,17 @@ function AddToTea() {
     });
 };
 
-// Sends request indicating which Herb to replace. Receives, updated TeaList and redraws it.
+// Sends request indicating which Herb to remove. Receives updated TeaList and redraws it.
 function RemoveFromTea( tealatinbinomial ) {
     return new Promise(function (resolve, reject) {
-        //var parsedFullHerb = JSON.parse(fullHerb.replaceAll("'", '"'));    
         var req = new XMLHttpRequest();
-
         reqURL = indexUrl + 'RemoveFromTea' + '?latinbinomial=' + tealatinbinomial;
-        //console.log('reqURL:', reqURL);
         req.open('GET', reqURL, true);
         req.addEventListener("load", function () {
             if (req.status >= 200 && req.status < 400) {
                 if (req.responseText !== '') {
                     var TeaList = req.responseText;
-                    TeaList = JSON.parse(TeaList)
-
+                    TeaList = JSON.parse(TeaList);
                     DrawList( TeaList, 'tea' );
                 } 
                 else {
@@ -237,30 +214,22 @@ function RemoveFromTea( tealatinbinomial ) {
     });
 };
 
+// Place each item in the List into either the Tea or Herb HTML collection
 function DrawList( List, TeaOrHerb ){
     var ListEntries =  ''
-    //Loop through List and update HTML
-    console.log(typeof List)
-    console.log(List)
-
     for (var i = 0; i < List.length ; i++){
-        currentHerb = List[i]
+        // If Tea, pass the current Tea Flavors to the update function.
         if(String(List[i].commonname) == "TeaFlavors"){
-            console.log(JSON.stringify(List[i]))
             UpdateFlavorTab( JSON.stringify(List[i]), "tea" );
         }
+        // Elsewise, create an HTML entry for the given list.
         else{
-            imgurl = List[i].latinbinomial
-            imgurl = String(imgurl)
-            imgurl = imgurl.replaceAll(" ", '')
-            imgurl += ".jpg"
-
             if (TeaOrHerb == "herb")
-                ListEntries += '<a href=\'#!\' class=\'collection-item avatar orange lighten-5\' onclick=\'SelectHerb('+ JSON.stringify(List[i]) +')\'>'
+                ListEntries += '<a href=\'#!\' class=\'collection-item avatar orange lighten-5\' onclick=\'UpdateHerbInfo('+ JSON.stringify(List[i]) +')\'>'
             else
-                ListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"SelectTeaHerb('"+ List[i].commonname + "', '" + List[i].latinbinomial + "')\">"
+                ListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"RemoveFromTea('"+ List[i].latinbinomial + "')\">"
 
-            ListEntries += "<img src=/static/" + imgurl + " class='circle'></img>"
+            ListEntries += "<img src=data:image/jpg;base64," + List[i].base64Image + " class='circle'></img>"
             +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
             +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
             +"<p id = >" + List[i].plantpart + "</p>"
@@ -268,7 +237,7 @@ function DrawList( List, TeaOrHerb ){
             +"</li>"
         }
     }
-    console.log(ListEntries)
+
     if (TeaOrHerb == "herb")
         document.getElementById('herbListMembers').innerHTML = ListEntries
     if (TeaOrHerb == "tea")
