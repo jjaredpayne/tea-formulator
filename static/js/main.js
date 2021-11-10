@@ -123,12 +123,41 @@ function UpdateHerbInfo( Herb ){
 
         document.getElementById('herbInfoCard').onclick = function(){ AddToTea(Herb); };
         document.getElementById('herbImage').src = "data:image/jpg;base64," + Herb.base64Image;
-        document.getElementById('herbName').innerText = selectedHerbName;
+        document.getElementById('herbName').innerText = Herb.commonname;
 
         RequestWikiText(JSON.stringify(Herb))
         UpdateFlavorTab( JSON.stringify(Herb), "herb" );
     });
 };
+
+
+function FilterHerbList( ){
+    return new Promise(function(resolve, reject){
+        var req = new XMLHttpRequest();
+        flavor = document.getElementById('FlavorSelect').value
+        reqURL = indexUrl + 'FilterHerbList' + '?flavorFilter=' + flavor;
+        req.open('GET', reqURL, true);
+        req.addEventListener("load", function () {
+            if (req.status >= 200 && req.status < 400) {
+                if (req.responseText !== '') {
+                    var filteredList = req.responseText;
+                    filteredList = JSON.parse(filteredList)
+
+                    DrawList( filteredList, 'herb' );
+                } 
+                else {
+                    console.log('error: reponse empty');
+                }
+            } 
+            else {
+                console.log("Error! " + req.statusText);
+            }
+        });
+        req.send(null);
+    });
+};
+
+
 
 function RequestWikiText( Herb ){
     return new Promise(function(resolve, reject){
@@ -154,13 +183,6 @@ function RequestWikiText( Herb ){
     });
 };
 
-// 
-function RemoveTeaHerb( latinbinomial ){
-    return new Promise(function(resolve, reject){
-        var tealatinbinomial = latinbinomial
-        RemoveFromTea( tealatinbinomial )
-    });
-};
 
 // Sends request including which herb to add to the TeaList. Recieves TeaList and redraws it.
 function AddToTea( herbToAdd) {
@@ -229,7 +251,7 @@ function DrawList( List, TeaOrHerb ){
             else
                 ListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"RemoveFromTea('"+ List[i].latinbinomial + "')\">"
 
-            ListEntries += "<img src=data:image/jpg;base64," + List[i].base64Image + " class='circle'></img>"
+            ListEntries += "<img src=data:image/jpg;base64," + List[i].thumbnail + "></img>"
             +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
             +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
             +"<p id = >" + List[i].plantpart + "</p>"

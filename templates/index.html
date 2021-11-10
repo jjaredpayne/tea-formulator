@@ -21,31 +21,48 @@
 							</ul>
 					<div class="card yellow lighten-5" style="height:350px">
 						<span class="card-title"><p class="center">Filter</p></span>
-						<div class="input-field col s12 vertical-align">
-							<select id="FlavorSelect" onchange="FlavorFilter(this.value)">
-							<option value="" disabled selected>Select</option>
-							<option value="1">Bitter</option>
-							<option value="2">Salty</option>
-							<option value="3">Sweet</option>
-							<option value="4">Sour</option>
-							<option value="5">Umami</option>
-							<option value="6">Cooling</option>
-							<option value="7">Earthy</option>
-							<option value="8">Floral</option>
-							<option value="9">Fruity</option>
-							<option value="10">Herbaceous</option>
-							<option value="11">Hot</option>
-							<option value="12">Nutty</option>
-							<option value="13">Piney</option>
-							<option value="14">Pungent</option>
-							<option value="15">Spicy</option>
-							<option value="16">Sulfury</option>
-							<option value="17">Woody</option>
+						<div class="input-field col s12 vertical-align" >
+							<!-- Dropdown Trigger -->
+							<a class='dropdown-trigger btn' href='#' data-target='FlavorSelect'>Drop Me!</a>
+
+							<!-- Dropdown Structure -->
+							<ul class='dropdown-content'>
+								<li value="NF" onclick="FilterHerbList()"><a href="#!">Remove Filter</a></li>
+								<li value="Bi" onclick="FilterHerbList()"><a href="#!">Bitter</a></li>
+								<li value="Sa" onclick="FilterHerbList()"><a href="#!">Salty</a></li>
+								<li><a href="#!">four</a></li>
+								<li><a href="#!">five</a></li>
+							</ul>
+						</div>
+							<!-- <select id="FlavorSelect" onchange="FilterHerbList()">
+							<div class = "col s6">
+								<option value="" disabled selected>Select a Flavor</option>
+								<option value="NF">Remove Filter</option>
+								<option value="Bi">Bitter</option>
+								<option value="Sa">Salty</option>
+								<option value="Sw">Sweet</option>
+								<option value="So">Sour</option>
+								<option value="Um">Umami</option>
+								<option value="Co">Cooling</option>
+							</div>
+							<div class = "col s6">
+								<option value="Ea">Earthy</option>
+								<option value="Fl">Floral</option>
+								<option value="Fr">Fruity</option>
+								<option value="He">Herbaceous</option>
+								<option value="Ho">Hot</option>
+								<option value="Nu">Nutty</option>
+								<option value="Pi">Piney</option>
+								<option value="Pu">Pungent</option>
+								<option value="Sp">Spicy</option>
+								<option value="Su">Sulfury</option>
+								<option value="Wo">Woody</option>
+							</div>
 							</select>
 							<label for="FlavorSelect">Sensory Characteristics</label>
-						</div>
+						</div> -->
 						<div class="input-field col s12 vertical-align disabled">
-							<select id="ActionSelect" class="disabled">
+							<select id="ActionSelect" class="disabled" disabled>
 							<option value="" disabled selected>Select</option>
 							<option value="1">Option 1</option>
 							<option value="2">Option 2</option>
@@ -54,7 +71,7 @@
 							<label for="ActionSelect">Herbal Actions</label>
 						</div>						
 						<div class="input-field col s12 vertical-align">
-							<select id="EnergeticsSelect">
+							<select id="EnergeticsSelect" disabled>
 							<option value="" disabled selected>Select</option>
 							<option value="1">Option 1</option>
 							<option value="2">Option 2</option>
@@ -234,11 +251,9 @@
 				$('.collapsible').collapsible();
 			});
 		</script>
-		<script type="text/javascript">// <![CDATA[
-			function loading(){
-				$("#loading").show();
-				$("#content").hide();       
-			}
-	// ]]></script>
+		<script>
+ 			$('.dropdown-trigger').dropdown()
+  		</script>
+
 	</body>
 </html>
