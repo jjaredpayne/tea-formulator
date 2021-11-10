@@ -3,12 +3,8 @@ auxlib==0.0.43
 beautifulsoup4==4.10.0
 brotlipy==0.7.0
 certifi==2021.10.8
-cffi @ file:///tmp/build/80754af9/cffi_1625814692085/work
-charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
 click==8.0.3
 conda==4.10.3
-conda-package-handling @ file:///tmp/build/80754af9/conda-package-handling_1618262147379/work
-cryptography @ file:///tmp/build/80754af9/cryptography_1633520369886/work
 Django==3.2.9
 Flask==2.0.2
 Flask-Cors==3.0.10
@@ -17,7 +13,6 @@ gevent==21.8.0
 gevent-websocket==0.10.1
 greenlet==1.1.2
 gunicorn==20.1.0
-idna @ file:///tmp/build/80754af9/idna_1622654382723/work
 image==1.5.33
 itsdangerous==2.0.1
 Jinja2==3.0.2
@@ -25,19 +20,12 @@ MarkupSafe==2.0.1
 mwparserfromhell==0.6.3
 Pillow==8.4.0
 pycosat==0.6.3
-pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
-pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
-PySocks @ file:///tmp/build/80754af9/pysocks_1605305812635/work
 pytz==2021.3
 pywikibot==6.6.2
 redis==3.5.3
 regex==2021.11.2
-requests @ file:///tmp/build/80754af9/requests_1629994808627/work
-ruamel-yaml-conda @ file:///tmp/build/80754af9/ruamel_yaml_1616016711199/work
-six @ file:///tmp/build/80754af9/six_1623709665295/work
 soupsieve==2.3
 sqlparse==0.4.2
-tqdm @ file:///tmp/build/80754af9/tqdm_1631818572807/work
 urllib3==1.26.7
 wcwidth==0.2.5
 Werkzeug==2.0.2
