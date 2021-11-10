@@ -23,7 +23,7 @@ var Sp = "<div> &nbsp</div>"
 var Su = "<div> &nbsp</div>"
 var Wo = "<div> &nbsp</div>"
 
-var indexUrl = 'http://127.0.0.1:5000/';
+var indexUrl = 'https://tea-formulator.herokuapp.com/';
 var wikiURL = 'https://wiki-text-scraper-361.herokuapp.com/';
 
 // Resets html elements, so flavor list can be repopulated.
