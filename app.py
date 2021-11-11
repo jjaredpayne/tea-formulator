@@ -317,35 +317,35 @@ def teamain():
     HerbList.append(arctostaphylosuvaursi)
     # HerbList.append(curcumalonga)
 
-    # Request image from WikiImageScraper
-    for herb in HerbList:
-        print("herb: " + str(herb))
-        wikipage = herb['latinbinomial']
-        # Perform search for the wikipage (places results in
-        # an array)
-        result = wikipedia.search(wikipage)
-        # if the first result doesn't work, use the 2nd result
-        # if neither work, return an error
-        try:
-            try:
-                page = wikipedia.page(result[0])
-            except:
-                page = wikipedia.page(result[1])
-        except:
-            return "Error. Wikipedia page not found."
-        wikiImgObj = getWikiImage(page.url)
+    # # Request image from WikiImageScraper
+    # for herb in HerbList:
+    #     print("herb: " + str(herb))
+    #     wikipage = herb['latinbinomial']
+    #     # Perform search for the wikipage (places results in
+    #     # an array)
+    #     result = wikipedia.search(wikipage)
+    #     # if the first result doesn't work, use the 2nd result
+    #     # if neither work, return an error
+    #     try:
+    #         try:
+    #             page = wikipedia.page(result[0])
+    #         except:
+    #             page = wikipedia.page(result[1])
+    #     except:
+    #         return "Error. Wikipedia page not found."
+    #     wikiImgObj = getWikiImage(page.url)
 
-        imgReq['img'] = wikiImgObj['firstImage']['base64']
-        imgReq['width'] = 41
-        imgReq['height'] = 41
+    #     imgReq['img'] = wikiImgObj['firstImage']['base64']
+    #     imgReq['width'] = 41
+    #     imgReq['height'] = 41
 
-        thumbnailImgObj = getResizedImage(imgReq)
+    #     thumbnailImgObj = getResizedImage(imgReq)
 
-        herb['base64Image'] = wikiImgObj['firstImage']['base64']
+    #     herb['base64Image'] = wikiImgObj['firstImage']['base64']
 
-        herb['thumbnail'] = thumbnailImgObj['base64']
-        # print(herb)
-        # Send herb dict object with render
+    #     herb['thumbnail'] = thumbnailImgObj['base64']
+    #     # print(herb)
+    #     # Send herb dict object with render
     return render_template("index.html", HerbList=HerbList)
 
 @app.route("/AddToTea", methods=['GET', 'POST'])
@@ -354,16 +354,14 @@ def addHerb():
         addedHerb = request.args.get('herbToAdd', '')
         addedHerb = addedHerb.replace("'", '"')
         herbJSON = json.loads(addedHerb)
-        print("addedHerb" + addedHerb)
         TeaList.append(herbJSON)
-        # print("HERBJSON\n")
-        # print(herbJSON)
-        # print(herbJSON['flavors'])
-        # print(type(herbJSON['flavors']))
-        # print(herbJSON['flavors']['Bi'])
-        # TeaFlavors['flavors']['Bi']
         modTeaFlavor("add", herbJSON)
-    return jsonify(TeaList)
+        return jsonify(TeaList)
+    if request.method == "POST":
+        addedHerb = request.json
+        TeaList.append(addedHerb)
+        modTeaFlavor("add", addedHerb)
+        return jsonify(TeaList)
 
 def modTeaFlavor(action, herbJSON):
     if action == "add":

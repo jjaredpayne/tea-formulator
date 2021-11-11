@@ -24,6 +24,7 @@ var Su = "<div> &nbsp</div>"
 var Wo = "<div> &nbsp</div>"
 
 var indexUrl = 'https://tea-formulator.herokuapp.com/';
+var indexUrl = 'http://127.0.01:5000/';
 var wikiURL = 'https://wiki-text-scraper-361.herokuapp.com/';
 
 // Resets html elements, so flavor list can be repopulated.
@@ -188,9 +189,12 @@ function RequestWikiText( Herb ){
 function AddToTea( herbToAdd) {
     return new Promise(function (resolve, reject) {
         var req = new XMLHttpRequest();
-        reqURL = indexUrl + 'AddToTea' + '?herbToAdd=' + JSON.stringify(herbToAdd);
-        console.log('reqURL:', reqURL);
-        req.open('GET', reqURL, true);
+        // reqURL = indexUrl + 'AddToTea' + '?herbToAdd=' + JSON.stringify(herbToAdd);
+        reqURL = indexUrl + 'AddToTea'
+        herbToAdd = JSON.stringify(herbToAdd)
+        req.open('POST', reqURL, true);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader("dataType", "json");
         req.addEventListener("load", function () {
             if (req.status >= 200 && req.status < 400) {
                 if (req.responseText !== '') {
@@ -207,7 +211,7 @@ function AddToTea( herbToAdd) {
                 console.log("Error! " + req.statusText);
             }
         });
-        req.send(null);
+        req.send(herbToAdd);
     });
 };
 
