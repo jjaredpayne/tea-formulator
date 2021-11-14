@@ -313,8 +313,8 @@ def requestImage():
         print(wikipage)
         # Perform search for the wikipage (places results in
         # an array)
-        result = wikipedia.search(wikipage)
-        print(result)
+        result = wikipedia.search(wikipage, results=2)
+        # page = wikipedia.suggest(wikipage)
         # if the first result doesn't work, use the 2nd result
         # if neither work, return an error
         try:
