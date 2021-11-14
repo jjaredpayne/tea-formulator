@@ -57,9 +57,7 @@ function SelectHerb( Herb ){
         selectedHerbName = selectedHerb.commonname;
         selectedlatinbinomial = decodeURI(selectedHerb.latinbinomial);
         selectedlatinbinomial = selectedlatinbinomial.replace(/\s+/g, '');
-        print("selectedlatinbinomial" + selectedlatinbinomial)
-        print("selectedherb" + selectedHerb)
-        print("herbToAdd" + herbToAdd)
+s
         selectedHerbPlantPart = selectedHerb.plantpart;
         UpdateHerbInfo( Herb )
     });
@@ -132,10 +130,9 @@ function UpdateHerbInfo( Herb ){
 };
 
 
-function FilterHerbList( ){
+function FilterHerbList(flavor){
     return new Promise(function(resolve, reject){
         var req = new XMLHttpRequest();
-        flavor = document.getElementById('FlavorSelect').value
         reqURL = indexUrl + 'FilterHerbList' + '?flavorFilter=' + flavor;
         req.open('GET', reqURL, true);
         req.addEventListener("load", function () {
@@ -143,7 +140,6 @@ function FilterHerbList( ){
                 if (req.responseText !== '') {
                     var filteredList = req.responseText;
                     filteredList = JSON.parse(filteredList)
-
                     DrawList( filteredList, 'herb' );
                 } 
                 else {

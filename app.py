@@ -397,10 +397,10 @@ def removeHerb():
 
 
 @app.route("/FilterHerbList", methods=['GET', 'POST'])
-def filterList():
+def filterList( ):
     if request.method == "GET":
         flavorFilter = request.args.get('flavorFilter', '')
-        if flavorFilter == "NF":
+        if flavorFilter == "rm":
             return jsonify(HerbList)
         FilteredList = []
         for herb in HerbList:

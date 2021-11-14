@@ -1,4 +1,9 @@
 <html>
+	<style>
+		.mega {
+			min-width: 360px !important;
+		}
+	</style>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Compiled CSS -->
@@ -19,21 +24,51 @@
 								  <div class="collapsible-body"><span>Use the drop down menus below to filter the herb list. Thenm click an herb from the list to view some information</span></div>
 								</li>
 							</ul>
-					<div class="card yellow lighten-5" style="height:350px">
+					<div class="card yellow lighten-5" style='height:350px'>
 						<span class="card-title"><p class="center">Filter</p></span>
 						<div class="input-field col s12 vertical-align" >
-							<!-- Dropdown Trigger -->
-							<a class='dropdown-trigger btn' href='#' data-target='FlavorSelect'>Drop Me!</a>
-
+							<!-- Flavor List Dropdown Trigger -->
+							<a class='dropdown-button btn-large waves-effect waves-light' id='flavordropdown' href='#' data-target='flavorFilterList'>Flavor Filter</a>
 							<!-- Dropdown Structure -->
-							<ul class='dropdown-content'>
-								<li value="NF" onclick="FilterHerbList()"><a href="#!">Remove Filter</a></li>
-								<li value="Bi" onclick="FilterHerbList()"><a href="#!">Bitter</a></li>
-								<li value="Sa" onclick="FilterHerbList()"><a href="#!">Salty</a></li>
-								<li><a href="#!">four</a></li>
-								<li><a href="#!">five</a></li>
+							<ul class='dropdown-content mega' id='flavorFilterList'>
+								<div class="row center-align" style="margin: 0px;">
+									<div class="col s4">
+										<li onclick="FilterHerbList('rm')"><a href="#!"><b>Reset</b></a></li>
+										<li onclick="FilterHerbList('Bi')"><a href="#!">Bitter</a></li>
+										<li onclick="FilterHerbList('Sa')"><a href="#!">Salty</a></li>
+										<li class="divider"></li>
+										<li onclick="FilterHerbList('Sw')"><a href="#!">Sweet</a></li>
+										<li onclick="FilterHerbList('So')"><a href="#!">Sour</a></li>
+										<li onclick="FilterHerbList('Co')"><a href="#!">Cooling</a></li>
+									</div>
+									<div class="col s4">
+										<li onclick="FilterHerbList('rm')"><a href="#!">Earthy</a></li>
+										<li onclick="FilterHerbList('Bi')"><a href="#!">Floral</a></li>
+										<li onclick="FilterHerbList('Sa')"><a href="#!">Fruity</a></li>
+										<li class="divider"></li>
+										<li onclick="FilterHerbList('Sw')"><a href="#!">Herbaceous</a></li>
+										<li onclick="FilterHerbList('So')"><a href="#!">Nutty</a></li>
+									</div>	
+									<div class="col s4">
+
+										<li onclick="FilterHerbList('Um')"><a href="#!">Piney</a></li>
+										<li onclick="FilterHerbList('Co')"><a href="#!">Pungent</a></li>
+										<li onclick="FilterHerbList('So')"><a href="#!">Spicy</a></li>
+										<li class="divider"></li>
+										<li onclick="FilterHerbList('Um')"><a href="#!">Sulfury</a></li>
+										<li onclick="FilterHerbList('Co')"><a href="#!">Woody</a></li>
+									</div>	
+								</div>
 							</ul>
 						</div>
+						<div class="input-field col s12 vertical-align" >
+						<!-- Action List Dropdown Trigger -->
+						<a class='dropdown-button dropdown-button btn-large waves-effect waves-light disabled' id='actiondropdown' href='#' data-target='actionFilterList'>Filter by Action</a>
+						<!-- Energetics List Dropdown Trigger -->
+						</div>
+						<div class="input-field col s12 vertical-align">
+						<a class='dropdown-button dropdown-button btn-large waves-effect waves-light disabled' id='energeticsdropdown' href='#' data-target='energeticsFilterList'>Filter by Energetics</a>
+						</div>	
 							<!-- <select id="FlavorSelect" onchange="FilterHerbList()">
 							<div class = "col s6">
 								<option value="" disabled selected>Select a Flavor</option>
@@ -61,7 +96,7 @@
 							</select>
 							<label for="FlavorSelect">Sensory Characteristics</label>
 						</div> -->
-						<div class="input-field col s12 vertical-align disabled">
+						<!-- <div class="input-field col s12 vertical-align disabled">
 							<select id="ActionSelect" class="disabled" disabled>
 							<option value="" disabled selected>Select</option>
 							<option value="1">Option 1</option>
@@ -78,7 +113,7 @@
 							<option value="3">Option 3</option>
 							</select>
 							<label for="EnergeticsSelect">Energetics</label>
-						</div>
+						</div> -->
 					</div>
 					<!--============================================-->
 					<!-- Populate Herblist with objects from app.py -->
@@ -233,8 +268,7 @@
 		</div>
 
 		<!-- Compiled and JavaScript -->
-		<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
 		<script type = "text/javascript" src="/static/js/main.js"></script>
 		<script>
 			$(document).ready(function() {
@@ -252,7 +286,7 @@
 			});
 		</script>
 		<script>
- 			$('.dropdown-trigger').dropdown()
+ 			$('#flavordropdown').dropdown()
   		</script>
 
 	</body>
