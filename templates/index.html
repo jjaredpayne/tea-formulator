@@ -24,9 +24,9 @@
 								  <div class="collapsible-body"><span>Use the drop down menus below to filter the herb list. Thenm click an herb from the list to view some information</span></div>
 								</li>
 							</ul>
-					<div class="card yellow lighten-5" style='height:350px'>
+					<div class="card yellow lighten-5 center-align" style='height:350px'>
 						<span class="card-title"><p class="center">Filter</p></span>
-						<div class="input-field col s12 vertical-align" >
+						<div class="input-field col s12 center-align" >
 							<!-- Flavor List Dropdown Trigger -->
 							<a class='dropdown-button btn-large waves-effect waves-light' id='flavordropdown' href='#' data-target='flavorFilterList'>Flavor Filter</a>
 							<!-- Dropdown Structure -->
@@ -60,69 +60,24 @@
 									</div>	
 								</div>
 							</ul>
-						</div>
-						<div class="input-field col s12 vertical-align" >
-						<!-- Action List Dropdown Trigger -->
-						<a class='dropdown-button dropdown-button btn-large waves-effect waves-light disabled' id='actiondropdown' href='#' data-target='actionFilterList'>Filter by Action</a>
-						<!-- Energetics List Dropdown Trigger -->
-						</div>
-						<div class="input-field col s12 vertical-align">
-						<a class='dropdown-button dropdown-button btn-large waves-effect waves-light disabled' id='energeticsdropdown' href='#' data-target='energeticsFilterList'>Filter by Energetics</a>
-						</div>	
-							<!-- <select id="FlavorSelect" onchange="FilterHerbList()">
-							<div class = "col s6">
-								<option value="" disabled selected>Select a Flavor</option>
-								<option value="NF">Remove Filter</option>
-								<option value="Bi">Bitter</option>
-								<option value="Sa">Salty</option>
-								<option value="Sw">Sweet</option>
-								<option value="So">Sour</option>
-								<option value="Um">Umami</option>
-								<option value="Co">Cooling</option>
 							</div>
-							<div class = "col s6">
-								<option value="Ea">Earthy</option>
-								<option value="Fl">Floral</option>
-								<option value="Fr">Fruity</option>
-								<option value="He">Herbaceous</option>
-								<option value="Ho">Hot</option>
-								<option value="Nu">Nutty</option>
-								<option value="Pi">Piney</option>
-								<option value="Pu">Pungent</option>
-								<option value="Sp">Spicy</option>
-								<option value="Su">Sulfury</option>
-								<option value="Wo">Woody</option>
+							<div class="input-field col s12 vertical-align" >
+							<!-- Action List Dropdown Trigger -->
+							<a class='dropdown-button dropdown-button btn-large waves-effect waves-light disabled' id='actiondropdown' href='#' data-target='actionFilterList'>Filter by Action</a>
+							<!-- Energetics List Dropdown Trigger -->
 							</div>
-							</select>
-							<label for="FlavorSelect">Sensory Characteristics</label>
-						</div> -->
-						<!-- <div class="input-field col s12 vertical-align disabled">
-							<select id="ActionSelect" class="disabled" disabled>
-							<option value="" disabled selected>Select</option>
-							<option value="1">Option 1</option>
-							<option value="2">Option 2</option>
-							<option value="3">Option 3</option>
-							</select>
-							<label for="ActionSelect">Herbal Actions</label>
-						</div>						
-						<div class="input-field col s12 vertical-align">
-							<select id="EnergeticsSelect" disabled>
-							<option value="" disabled selected>Select</option>
-							<option value="1">Option 1</option>
-							<option value="2">Option 2</option>
-							<option value="3">Option 3</option>
-							</select>
-							<label for="EnergeticsSelect">Energetics</label>
-						</div> -->
+							<div class="input-field col s12 vertical-align">
+							<a class='dropdown-button dropdown-button btn-large waves-effect waves-light disabled' id='energeticsdropdown' href='#' data-target='energeticsFilterList'>Filter by Energetics</a>
+							</div>
 					</div>
 					<!--============================================-->
 					<!-- Populate Herblist with objects from app.py -->
 					<!--============================================-->
-					<div class="card yellow lighten-5 " style="height: 500px; overflow-y: auto;">
-						<ul class="collection yellow lighten-5" id="herbListMembers">
+					<div class="card yellow lighten-5" style="height: 500px; overflow-y: auto;">
+						<div class="collection orange lighten-5" id="herbListMembers">
 
+						</div>
 					<!--End=========================================-->
-						</ul>
 					</div>
 					<!-- <div class="center padding=2">
 						<a class="waves-effect waves-light btn-large center" onclick = "UpdateHerbInfo()">View Herb Info</a>
@@ -258,7 +213,7 @@
 						<!--============================================-->
 						<!-- Populate TeaList with objects from app.py  -->
 						<!--============================================-->
-						<ul id= "teaListMembers" class="collection green .input-field">
+						<ul id= "teaListMembers" class="collection yellow lighten-5 .input-field">
 		
 						</ul>
 						<!--End=========================================-->

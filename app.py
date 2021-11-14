@@ -294,6 +294,7 @@ imgReq = {
     }
 
 def getWikiImage(wikiUrl):
+    print("getWikiImage")
     wikiText = requests.get('https://wikipedia-image-scraper.azurewebsites.net/getFirstImage?WikiUrl=' + wikiUrl)
     return wikiText.json()
 
@@ -302,6 +303,44 @@ def getResizedImage(imgObj):
     resizedImg = requests.post('http://wozniakr.pythonanywhere.com/resize', json=imgObj)
     print(resizedImg.text)
     return resizedImg.json()
+
+@app.route("/requestImage", methods=['GET', 'POST'])
+def requestImage():
+    if request.method == "GET":
+        print("requestImage")
+        latinbinomial = request.args.get('latinbinomial', '')
+        wikipage = latinbinomial
+        print(wikipage)
+        # Perform search for the wikipage (places results in
+        # an array)
+        result = wikipedia.search(wikipage)
+        print(result)
+        # if the first result doesn't work, use the 2nd result
+        # if neither work, return an error
+        try:
+            try:
+                page = wikipedia.page(result[0])
+            except:
+                page = wikipedia.page(result[1])
+        except:
+            return "Error. Wikipedia page not found."
+        wikiImgObj = getWikiImage(page.url)
+                
+        imgReq['img'] = wikiImgObj['firstImage']['base64']
+        imgReq['img'] = wikiImgObj['firstImage']['base64']
+        imgReq['width'] = 41
+        imgReq['height'] = 41
+
+        thumbnailImgObj = getResizedImage(imgReq)
+        print(thumbnailImgObj)
+
+        for herb in HerbList:
+            if herb['latinbinomial'] == latinbinomial:
+                herb['base64Image'] = wikiImgObj['firstImage']['base64']
+                herb['thumbnail'] = thumbnailImgObj['base64']
+                return jsonify(herb)
+        print(HerbList)
+
 
 @app.route("/", methods=['GET', 'POST'])
 def teamain():
@@ -354,26 +393,35 @@ def addHerb():
         addedHerb = request.args.get('herbToAdd', '')
         addedHerb = addedHerb.replace("'", '"')
         herbJSON = json.loads(addedHerb)
-        TeaList.append(herbJSON)
-        modTeaFlavor("add", herbJSON)
-        return jsonify(TeaList)
+        for herb in HerbList:
+            print(herb['latinbinomial'])
+            print(herbJSON['latinbinomial'])
+            if herb['latinbinomial'] == herbJSON['latinBinomial']:
+                TeaList.append(herb)
+                modTeaFlavor("add", herb)
+                return jsonify(TeaList)
     if request.method == "POST":
         addedHerb = request.json
-        TeaList.append(addedHerb)
-        modTeaFlavor("add", addedHerb)
-        return jsonify(TeaList)
+        # herbJSON = json.loads(addedHerb)
+        print(addedHerb['latinbinomial'])
+        for herb in HerbList:
+            print(herb['latinbinomial'])
+            print(addedHerb['latinbinomial'])
+            if herb['latinbinomial'] == addedHerb['latinbinomial']:
+                TeaList.append(herb)
+                modTeaFlavor("add", herb)
+                return jsonify(TeaList)
 
 def modTeaFlavor(action, herbJSON):
     if action == "add":
-        print(type(herbJSON))
+        print("mod tea flavors " + str(herbJSON['flavors']))
         for flavor in TeaFlavors['flavors']:
-            if herbJSON['flavors'][flavor] == "1":
+            if herbJSON['flavors'][flavor] >= 1:
                 TeaFlavors['flavors'][flavor] += 1
-                print("added 1 to: " + flavor)
-                print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
+                print("mod tea flavors " + str(herbJSON['flavors']))
     if action == "subtract":
         for flavor in TeaFlavors['flavors']:
-            if herbJSON['flavors'][flavor] == "1":
+            if herbJSON['flavors'][flavor] == 1:
                 TeaFlavors['flavors'][flavor] -= 1
                 # print("added 1 to: " + flavor)
                 # print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
@@ -397,7 +445,7 @@ def removeHerb():
 
 
 @app.route("/FilterHerbList", methods=['GET', 'POST'])
-def filterList( ):
+def filterList():
     if request.method == "GET":
         flavorFilter = request.args.get('flavorFilter', '')
         if flavorFilter == "rm":

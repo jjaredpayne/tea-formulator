@@ -120,12 +120,11 @@ function UpdateFlavorTab ( parsedHerb, TeaOrHerb ){
 function UpdateHerbInfo( Herb ){
     return new Promise(function(resolve, reject){
 
-        document.getElementById('herbInfoCard').onclick = function(){ AddToTea(Herb); };
-        document.getElementById('herbImage').src = "data:image/jpg;base64," + Herb.base64Image;
-        document.getElementById('herbName').innerText = Herb.commonname;
-
+        RequestHerbImage(JSON.stringify(Herb))
         RequestWikiText(JSON.stringify(Herb))
         UpdateFlavorTab( JSON.stringify(Herb), "herb" );
+        document.getElementById('herbInfoCard').onclick = function(){ AddToTea(Herb); };
+        document.getElementById('herbName').innerText = Herb.commonname;
     });
 };
 
@@ -154,8 +153,6 @@ function FilterHerbList(flavor){
     });
 };
 
-
-
 function RequestWikiText( Herb ){
     return new Promise(function(resolve, reject){
         var req = new XMLHttpRequest();
@@ -180,6 +177,30 @@ function RequestWikiText( Herb ){
     });
 };
 
+function RequestHerbImage( Herb ){
+    return new Promise(function(resolve, reject){
+        var req = new XMLHttpRequest();
+        parsedHerb = JSON.parse(Herb)
+        reqURL = indexUrl + 'requestImage' + '?latinbinomial=' + parsedHerb.latinbinomial;
+        req.open('GET', reqURL, true);
+        req.addEventListener("load", function () {
+            if (req.status >= 200 && req.status < 400) {
+                if (req.responseText !== '') {
+                    herb = JSON.parse(req.responseText)
+                    document.getElementById('herbImage').src = "data:image/jpg;base64," + herb['base64Image'];
+                    console.log(herb['thumbnail'])
+                } 
+                else {
+                    console.log('error: reponse empty');
+                }
+            } 
+            else {
+                console.log("Error! " + req.statusText);
+            }
+        });
+        req.send(null);
+    });
+};
 
 // Sends request including which herb to add to the TeaList. Recieves TeaList and redraws it.
 function AddToTea( herbToAdd) {
@@ -196,7 +217,7 @@ function AddToTea( herbToAdd) {
                 if (req.responseText !== '') {
                     var TeaList = req.responseText;
                     TeaList = JSON.parse(TeaList)
-
+                    console.log(TeaList['thumbnail'])
                     DrawList( TeaList, 'tea' );
                 } 
                 else {
@@ -247,16 +268,26 @@ function DrawList( List, TeaOrHerb ){
         // Elsewise, create an HTML entry for the given list.
         else{
             if (TeaOrHerb == "herb")
-                ListEntries += '<a href=\'#!\' class=\'collection-item avatar orange lighten-5\' onclick=\'UpdateHerbInfo('+ JSON.stringify(List[i]) +')\'>'
+                ListEntries += '<a href="#!" class="collection-item" onclick=\'UpdateHerbInfo('+ JSON.stringify(List[i]) +')\'>'
+                +'<p>' + List[i].commonname
+                +' (' + List[i].latinbinomial + ')</p>'
+                +'<p id = >' + List[i].plantpart + '</p>'
+                +'</a>'
+                // ListEntries += '<li><a href=\'#!\' class=\'collection-item avatar orange lighten-5\' onclick=\'UpdateHerbInfo('+ JSON.stringify(List[i]) +')\'>'
+                // // +"<img src=data:image/jpg;base64," + List[i].thumbnail + "></img>"
+                // +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
+                // +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
+                // +"<p id = >" + List[i].plantpart + "</p>"
+                // +"</a>"
+                // +"</li>"
             else
-                ListEntries += "<a href=\"#!\" class=\"collection-item avatar orange lighten-5\" onclick=\"RemoveFromTea('"+ List[i].latinbinomial + "')\">"
-
-            ListEntries += "<img src=data:image/jpg;base64," + List[i].thumbnail + "></img>"
-            +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
-            +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
-            +"<p id = >" + List[i].plantpart + "</p>"
-            +"</a>"
-            +"</li>"
+                ListEntries +="<li class=\"collection-item avatar orange lighten-5\" onclick=\"RemoveFromTea('"+ List[i].latinbinomial + "')\">"
+                +"<img class='circle' src=data:image/jpg;base64," + List[i].thumbnail + "></img>"
+                +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
+                +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
+                +"<p id = >" + List[i].plantpart + "</p>"
+                +'<a href="#!" class="secondary-content"><i class="medium material-icons">close</i></a>'
+                +"</li>"
         }
     }
 
