@@ -233,8 +233,9 @@ function SetHTML( TeaOrHerb, List, i ){
         +"<span id='List.commonname' class='title'>" + List[i].commonname + "</span>"
         +"<p id ='" + List[i].latinbinomial + "'>'" +  List[i].latinbinomial + "'</p>"
         +"<p id = >" + List[i].plantpart + "</p>"
-        +'<a href="#!" class="secondary-content"><i class="small material-icons" onclick="RemoveFromTea("' + List[i].latinbinomial + '")">close</i></a>'
+        +"<a href='#!' class='secondary-content'><i class='small material-icons' onclick=\"RemoveFromTea(\'" + List[i].latinbinomial + "\')\">close</i></a>"
         +"</li>"
+        console.log("'" + List[i].latinbinomial + "'")
     }
     return ListEntries
 }
