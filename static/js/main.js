@@ -1,5 +1,5 @@
 var indexUrl = 'https://tea-formulator.herokuapp.com/';
-  var indexUrl = 'http://127.0.01:5000/';
+//   var indexUrl = 'http://127.0.01:5000/';
 var wikiURL = 'https://wiki-text-scraper-361.herokuapp.com/';
 
 //Flavor attributes
