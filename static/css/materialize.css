@@ -9093,3 +9093,7 @@ input[type=range]::-ms-thumb {
     margin-top: 1.2rem;
   }
 }
+
+.mega {
+  min-width: 360px !important;
+}

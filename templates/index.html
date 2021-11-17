@@ -1,9 +1,5 @@
 <html>
-	<style>
-		.mega {
-			min-width: 360px !important;
-		}
-	</style>
+
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Compiled CSS -->
@@ -11,7 +7,17 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 
+	<!-- Flask draws the first herb list -->
 	<body class = "body white" onload='DrawList( {{ HerbList | tojson }}, "herb")''>
+
+		<nav>
+			<div class="nav-wrapper yellow lighten-5 ">
+			  <a href="#" class="brand-logo center black-text">tea-formulator-361</a>
+			  <ul id="nav-mobile" class="left hide-on-med-and-down">
+			  </ul>
+			</div>
+		  </nav>
+
 		<div class="container">
 			<div class="row">
 				<!--============================================-->
@@ -21,7 +27,7 @@
 							<ul class="collapsible yellow lighten-5">
 								<li>
 								  <div class="collapsible-header yellow lighten-5"><i class="material-icons">help</i>1. Pick an Herb</div>
-								  <div class="collapsible-body"><span>Use the drop down menus below to filter the herb list. Thenm click an herb from the list to view some information</span></div>
+								  <div class="collapsible-body"><span>Use the drop down menus below to filter the herb list. Then click an herb from the list to view some information</span></div>
 								</li>
 							</ul>
 					<div class="card yellow lighten-5 center-align" style='height:350px'>
@@ -79,9 +85,6 @@
 						</div>
 					<!--End=========================================-->
 					</div>
-					<!-- <div class="center padding=2">
-						<a class="waves-effect waves-light btn-large center" onclick = "UpdateHerbInfo()">View Herb Info</a>
-					</div> -->
 				</div>
 
 				<!--============================================-->
@@ -148,9 +151,6 @@
 						  <div class="card-content" id = "herbText" style = "overflow-y: auto">
 						  </div>
 					</div>
-					<!-- <div class="center padding=2">
-						<a class="waves-effect waves-light btn-large center" id="addToTeaButton" onclick="SelectTeaHerb()">Add to Tea</a>
-					</div> -->
 				</div>
 
 				<!--============================================-->

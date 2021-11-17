@@ -7,6 +7,15 @@ import base64
 
 app = Flask(__name__)
 
+# object used to request resized image from Microservice
+imgReq = {
+    "img": "",
+    "width": "",
+    "height": ""
+    }
+
+
+
 melissaofficinalis = {
     "commonname": "Lemon Balm",
     "latinbinomial": "Melissa officinalis",
@@ -120,7 +129,7 @@ phytolaccaamericana = {
     "thumbnail": ""
 }
 hypericumperforatum = {
-    "commonname": "St. John's Wort",
+    "commonname": "St Johns Wort",
     "latinbinomial": "Hypericum perforatum",
     "plantpart": "Leaf",
     "image": "hypericumperforatum.jpg",
@@ -284,20 +293,21 @@ TeaFlavors = {
     "base64Image": "",
     "thumbnail": ""
 }
+
+# Contains the herb objects to be displayed on the herb list 
 HerbList = []
+
+# Contains the herb objects to be displayed on the tea list, 
+# as well as the totalled Tea Flavors object
 TeaList = [TeaFlavors]
 
-imgReq = {
-    "img": "",
-    "width": "",
-    "height": ""
-    }
-
+# Requests Image from Charlie Chi Hang Leung's Wikipedia image scraper microservice
 def getWikiImage(wikiUrl):
     print("getWikiImage")
     wikiText = requests.get('https://wikipedia-image-scraper.azurewebsites.net/getFirstImage?WikiUrl=' + wikiUrl)
     return wikiText.json()
 
+# Requests Image from Rachel Wozniak's image resizing microservice
 def getResizedImage(imgObj):
     print(imgObj)
     resizedImg = requests.post('http://wozniakr.pythonanywhere.com/resize', json=imgObj)
@@ -307,16 +317,18 @@ def getResizedImage(imgObj):
 @app.route("/requestImage", methods=['GET', 'POST'])
 def requestImage():
     if request.method == "GET":
-        print("requestImage")
         latinbinomial = request.args.get('latinbinomial', '')
+
+        # If the image has already been retrieved, simply return the herb object
+        for herb in HerbList:
+            if herb['latinbinomial'] == latinbinomial:
+                herb['base64Image'] != ''
+                return jsonify(herb)
+
+        # Perform Wikipedia search for latinbinomial and retrieve the first valid
+        # page.
         wikipage = latinbinomial
-        print(wikipage)
-        # Perform search for the wikipage (places results in
-        # an array)
         result = wikipedia.search(wikipage, results=2)
-        # page = wikipedia.suggest(wikipage)
-        # if the first result doesn't work, use the 2nd result
-        # if neither work, return an error
         try:
             try:
                 page = wikipedia.page(result[0])
@@ -324,27 +336,31 @@ def requestImage():
                 page = wikipedia.page(result[1])
         except:
             return "Error. Wikipedia page not found."
+        
+        # Submit the retrieved Wikipedia page URL to the Wikipedia Image Scraper 
+        # Microservice
         wikiImgObj = getWikiImage(page.url)
-                
-        imgReq['img'] = wikiImgObj['firstImage']['base64']
+                 
+        # Populate the image request object with the image string, and the requested
+        # picture dimensions.
         imgReq['img'] = wikiImgObj['firstImage']['base64']
         imgReq['width'] = 41
         imgReq['height'] = 41
 
+        # Submit the image request object to the Resize Image microservice and assign
         thumbnailImgObj = getResizedImage(imgReq)
-        print(thumbnailImgObj)
 
+        # Find the matching herb and insert the images into the object.
+        # Return the jsonified object.
         for herb in HerbList:
             if herb['latinbinomial'] == latinbinomial:
                 herb['base64Image'] = wikiImgObj['firstImage']['base64']
                 herb['thumbnail'] = thumbnailImgObj['base64']
                 return jsonify(herb)
-        print(HerbList)
 
-
+# Populates herb list on page load and renders the page.
 @app.route("/", methods=['GET', 'POST'])
 def teamain():
-    print("are updates being reflected?")
     HerbList.clear()
     HerbList.append(melissaofficinalis)
     HerbList.append(menthaspicata)
@@ -354,96 +370,52 @@ def teamain():
     HerbList.append(passifloraincarnata)
     HerbList.append(centellaasiatica)
     HerbList.append(arctostaphylosuvaursi)
-    # HerbList.append(curcumalonga)
 
-    # # Request image from WikiImageScraper
-    # for herb in HerbList:
-    #     print("herb: " + str(herb))
-    #     wikipage = herb['latinbinomial']
-    #     # Perform search for the wikipage (places results in
-    #     # an array)
-    #     result = wikipedia.search(wikipage)
-    #     # if the first result doesn't work, use the 2nd result
-    #     # if neither work, return an error
-    #     try:
-    #         try:
-    #             page = wikipedia.page(result[0])
-    #         except:
-    #             page = wikipedia.page(result[1])
-    #     except:
-    #         return "Error. Wikipedia page not found."
-    #     wikiImgObj = getWikiImage(page.url)
-
-    #     imgReq['img'] = wikiImgObj['firstImage']['base64']
-    #     imgReq['width'] = 41
-    #     imgReq['height'] = 41
-
-    #     thumbnailImgObj = getResizedImage(imgReq)
-
-    #     herb['base64Image'] = wikiImgObj['firstImage']['base64']
-
-    #     herb['thumbnail'] = thumbnailImgObj['base64']
-    #     # print(herb)
-    #     # Send herb dict object with render
     return render_template("index.html", HerbList=HerbList)
 
+# Recieves an Herb object json file, adds the herb to the tea list, and
+# updates the totalled tea flavors.
 @app.route("/AddToTea", methods=['GET', 'POST'])
 def addHerb():
-    if request.method == "GET":
-        addedHerb = request.args.get('herbToAdd', '')
-        addedHerb = addedHerb.replace("'", '"')
-        herbJSON = json.loads(addedHerb)
-        for herb in HerbList:
-            print(herb['latinbinomial'])
-            print(herbJSON['latinbinomial'])
-            if herb['latinbinomial'] == herbJSON['latinBinomial']:
-                TeaList.append(herb)
-                modTeaFlavor("add", herb)
-                return jsonify(TeaList)
     if request.method == "POST":
-        addedHerb = request.json
-        # herbJSON = json.loads(addedHerb)
-        print(addedHerb['latinbinomial'])
-        for herb in HerbList:
-            print(herb['latinbinomial'])
-            print(addedHerb['latinbinomial'])
-            if herb['latinbinomial'] == addedHerb['latinbinomial']:
-                TeaList.append(herb)
-                modTeaFlavor("add", herb)
+        print("JSON " + str(request.json))
+        herbToAdd = request.json
+        print(herbToAdd['latinbinomial'])
+        for herb in TeaList:
+            if herb['commonname'] == 'TeaFlavors':
+                print("TeaFlavor")
+            elif herb['latinbinomial'] == herbToAdd['latinbinomial']:
                 return jsonify(TeaList)
+        TeaList.append(herbToAdd)
+        modTeaFlavor("add", herbToAdd)
+        return jsonify(TeaList)
 
-def modTeaFlavor(action, herbJSON):
-    if action == "add":
-        print("mod tea flavors " + str(herbJSON['flavors']))
+# Adds or subtracts the passed herb's flavor from the totalled tea flavors
+def modTeaFlavor(addOrSub, herbJSON):
+    if addOrSub == "add":
         for flavor in TeaFlavors['flavors']:
             if herbJSON['flavors'][flavor] >= 1:
                 TeaFlavors['flavors'][flavor] += 1
-                print("mod tea flavors " + str(herbJSON['flavors']))
-    if action == "subtract":
+    if addOrSub == "subtract":
         for flavor in TeaFlavors['flavors']:
             if herbJSON['flavors'][flavor] == 1:
                 TeaFlavors['flavors'][flavor] -= 1
-                # print("added 1 to: " + flavor)
-                # print("TeaTotal flavor: " + str(TeaFlavors['flavors'][flavor]))
-    
+
+# Recieves the latinbinomial of an herb, removes it from the tea list
+# and updates the totalled herb flavors
 @app.route("/RemoveFromTea", methods=['GET', 'POST'])
 def removeHerb():
     if request.method == "GET":
         latinbinomial = request.args.get('latinbinomial', '')
-        # print(latinbinomial)
-        # print(type(latinbinomial))
         for herb in TeaList:
-            # print(herb)
-            # print(type(str(herb)))
             if latinbinomial in str(herb):
                 TeaList.remove(herb)
-                # print("Herb Removed " + str(herb))
-        # print("After Removal" + str(TeaList))
     modTeaFlavor("subtract", herb)
 
     return jsonify(TeaList)
 
-
+# Recieves a flavor, and rebuilds the herb list with only herbs
+# containing that flavor.
 @app.route("/FilterHerbList", methods=['GET', 'POST'])
 def filterList():
     if request.method == "GET":
@@ -455,3 +427,4 @@ def filterList():
             if herb['flavors'][flavorFilter] >= 1:
                 FilteredList.append(herb)
         return jsonify(FilteredList)
+        
