@@ -206,6 +206,7 @@ function ProcessWikiText( text ){
 function DrawList( List, TeaOrHerb ){
     var ListEntries =  ''
     for (var i = 0; i < List.length ; i++){
+        console.log('Herb #' + i + '. ' + TeaList.commonname)
         // Update the tea flavors tab.
         // Else, create an HTML entry for the list item.
         if(String(List[i].commonname) == "TeaFlavors")
