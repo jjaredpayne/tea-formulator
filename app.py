@@ -1,20 +1,18 @@
 from flask import Flask, render_template, request, jsonify
-import json
-import urllib.parse
+# import json
+# import urllib.parse
 import requests
 import wikipedia
-import base64
+# import base64
 
 app = Flask(__name__)
 
 # object used to request resized image from Microservice
-imgReq = {
+img_req = {
     "img": "",
     "width": "",
     "height": ""
     }
-
-
 
 melissaofficinalis = {
     "commonname": "Lemon Balm",
@@ -24,21 +22,21 @@ melissaofficinalis = {
     "flavors":
     {
         "Bi": 0,
-        "Sa": 1,
+        "Sa": 0,
         "So": 0,
-        "Sw": 1,
+        "Sw": 0,
         "Um": 0,
-        "Co": 1,
+        "Co": 0,
         "Ea": 0,
         "Fl": 1,
-        "Fr": 0,
+        "Fr": 1,
         "He": 1,
         "Ho": 0,
         "Nu": 0,
         "Pi": 0,
         "Pu": 0,
         "Sp": 0,
-        "Su": 0,
+        "Su": 1,
         "Wo": 0
     },
     "base64Image": "",
@@ -49,18 +47,18 @@ menthaspicata = {
     "latinbinomial": "Mentha spicata",
     "plantpart": "Leaf",
     "image": "menthaspicata.jpg",
-        "flavors":
+    "flavors":
     {
-        "Bi": 1,
+        "Bi": 0,
         "Sa": 0,
-        "So": 1,
+        "So": 0,
         "Sw": 0,
-        "Um": 1,
-        "Co": 0,
+        "Um": 0,
+        "Co": 1,
         "Ea": 1,
         "Fl": 0,
         "Fr": 0,
-        "He": 0,
+        "He": 1,
         "Ho": 0,
         "Nu": 0,
         "Pi": 0,
@@ -85,15 +83,15 @@ cinnamomumcassia = {
         "Sw": 0,
         "Um": 0,
         "Co": 0,
-        "Ea": 0,
+        "Ea": 1,
         "Fl": 0,
         "Fr": 0,
         "He": 0,
-        "Ho": 0,
+        "Ho": 1,
         "Nu": 0,
         "Pi": 0,
         "Pu": 0,
-        "Sp": 0,
+        "Sp": 1,
         "Su": 0,
         "Wo": 0
     },
@@ -107,12 +105,12 @@ phytolaccaamericana = {
     "image": "phytolaccaamericana.jpg",
     "flavors":
     {
-        "Bi": 1,
+        "Bi": 0,
         "Sa": 0,
         "So": 0,
         "Sw": 0,
         "Um": 0,
-        "Co": 0,
+        "Co": 1,
         "Ea": 0,
         "Fl": 0,
         "Fr": 0,
@@ -120,9 +118,9 @@ phytolaccaamericana = {
         "Ho": 0,
         "Nu": 0,
         "Pi": 0,
-        "Pu": 0,
+        "Pu": 1,
         "Sp": 0,
-        "Su": 0,
+        "Su": 1,
         "Wo": 0
     },
     "base64Image": "",
@@ -135,20 +133,20 @@ hypericumperforatum = {
     "image": "hypericumperforatum.jpg",
     "flavors":
     {
-        "Bi": 1,
+        "Bi": 0,
         "Sa": 0,
         "So": 0,
         "Sw": 0,
-        "Um": 0,
+        "Um": 1,
         "Co": 0,
         "Ea": 0,
         "Fl": 0,
-        "Fr": 0,
+        "Fr": 1,
         "He": 0,
         "Ho": 0,
         "Nu": 0,
         "Pi": 0,
-        "Pu": 0,
+        "Pu": 1,
         "Sp": 0,
         "Su": 0,
         "Wo": 0
@@ -163,16 +161,16 @@ passifloraincarnata = {
     "image": "passifloraincarnata.jpg",
     "flavors":
     {
-        "Bi": 1,
+        "Bi": 0,
         "Sa": 0,
         "So": 0,
         "Sw": 0,
         "Um": 0,
         "Co": 0,
         "Ea": 0,
-        "Fl": 0,
+        "Fl": 1,
         "Fr": 0,
-        "He": 0,
+        "He": 1,
         "Ho": 0,
         "Nu": 0,
         "Pi": 0,
@@ -195,7 +193,7 @@ centellaasiatica = {
         "Sa": 0,
         "So": 0,
         "Sw": 0,
-        "Um": 0,
+        "Um": 1,
         "Co": 0,
         "Ea": 0,
         "Fl": 0,
@@ -206,8 +204,8 @@ centellaasiatica = {
         "Pi": 0,
         "Pu": 0,
         "Sp": 0,
-        "Su": 0,
-        "Wo": 0
+        "Su": 1,
+        "Wo": 1
     },
     "base64Image": "",
     "thumbnail": ""
@@ -220,7 +218,7 @@ arctostaphylosuvaursi = {
     "flavors":
     {
         "Bi": 1,
-        "Sa": 0,
+        "Sa": 1,
         "So": 0,
         "Sw": 0,
         "Um": 0,
@@ -230,7 +228,7 @@ arctostaphylosuvaursi = {
         "Fr": 0,
         "He": 0,
         "Ho": 0,
-        "Nu": 0,
+        "Nu": 1,
         "Pi": 0,
         "Pu": 0,
         "Sp": 0,
@@ -253,23 +251,23 @@ curcumalonga = {
         "Sw": 0,
         "Um": 0,
         "Co": 0,
-        "Ea": 0,
+        "Ea": 1,
         "Fl": 0,
         "Fr": 0,
         "He": 0,
         "Ho": 0,
-        "Nu": 0,
+        "Nu": 1,
         "Pi": 0,
         "Pu": 0,
-        "Sp": 0,
+        "Sp": 1,
         "Su": 0,
         "Wo": 0
     },
     "base64Image": "",
     "thumbnail": ""
 }
-TeaFlavors = {
-    "commonname": "TeaFlavors",
+tea_flavors = {
+    "commonname": "tea_flavors",
     "flavors":
     {
         "Bi": 0,
@@ -294,84 +292,94 @@ TeaFlavors = {
     "thumbnail": ""
 }
 
-# Contains the herb objects to be displayed on the herb list 
-HerbList = []
+# Contains the herb objects to be displayed on the herb list
+herb_list = []
 
-# Contains the herb objects to be displayed on the tea list, 
+# Contains the herb objects to be displayed on the tea list,
 # as well as the totalled Tea Flavors object
-TeaList = [TeaFlavors]
+tea_list = [tea_flavors]
 
-# Requests Image from Charlie Chi Hang Leung's Wikipedia image scraper microservice
-def getWikiImage(wikiUrl):
-    print("getWikiImage")
-    wikiText = requests.get('https://wikipedia-image-scraper.azurewebsites.net/getFirstImage?WikiUrl=' + wikiUrl)
-    return wikiText.json()
+
+# Requests Image from Charlie Chi Hang Leung's Wikipedia
+# image scraper microservice
+def getWikiImage(wiki_url):
+    img_scraper = "https://wiki-image.herokuapp.com/getFirstImage?WikiUrl="
+    print("Requesting from: " + img_scraper + wiki_url)
+    wiki_img = requests.get(img_scraper + wiki_url)
+    return wiki_img.json()
+
 
 # Requests Image from Rachel Wozniak's image resizing microservice
-def getResizedImage(imgObj):
-    print(imgObj)
-    resizedImg = requests.post('http://wozniakr.pythonanywhere.com/resize', json=imgObj)
-    print(resizedImg.text)
-    return resizedImg.json()
+def getResizedImage(img_obj):
+    print("getting resized image")
+    resized_img = requests.post('http://wozniakr.pythonanywhere.com/resize',
+                                json=img_obj)
+    return resized_img.json()
+
 
 @app.route("/requestImage", methods=['GET', 'POST'])
 def requestImage():
     if request.method == "GET":
         latinbinomial = request.args.get('latinbinomial', '')
-
-        # If the image has already been retrieved, simply return the herb object
-        for herb in HerbList:
+        print('request image')
+        # If the image has already been retrieved, simply return the
+        # herb object
+        for herb in herb_list:
+            print('Checking if image already exists...')
             if herb['latinbinomial'] == latinbinomial:
-                herb['base64Image'] != ''
-                return jsonify(herb)
+                if herb['base64Image'] != '':
+                    return jsonify(herb)
 
-        # Perform Wikipedia search for latinbinomial and retrieve the first valid
-        # page.
+        # Perform Wikipedia search for latinbinomial and retrieve the
+        # first valid page
         wikipage = latinbinomial
         result = wikipedia.search(wikipage, results=2)
         try:
             try:
                 page = wikipedia.page(result[0])
-            except:
+            except Exception:
                 page = wikipedia.page(result[1])
-        except:
+        except Exception:
             return "Error. Wikipedia page not found."
-        
-        # Submit the retrieved Wikipedia page URL to the Wikipedia Image Scraper 
-        # Microservice
-        wikiImgObj = getWikiImage(page.url)
-                 
-        # Populate the image request object with the image string, and the requested
-        # picture dimensions.
-        imgReq['img'] = wikiImgObj['firstImage']['base64']
-        imgReq['width'] = 41
-        imgReq['height'] = 41
+        print("Wikipage found: " + page.url)
+        # Submit the retrieved Wikipedia page URL to the Wikipedia Image
+        # Scraper Microservice
+        wiki_img_obj = getWikiImage(page.url)
+        # Populate the image request object with the image string, and the
+        # requested picture dimensions.
+        img_req['img'] = wiki_img_obj['firstImage']['base64']
+        img_req['width'] = 41
+        img_req['height'] = 41
 
-        # Submit the image request object to the Resize Image microservice and assign
-        thumbnailImgObj = getResizedImage(imgReq)
+        # Submit the image request object to the Resize Image microservice
+        # and assign
+        thumbnail_img_obj = getResizedImage(img_req)
 
         # Find the matching herb and insert the images into the object.
         # Return the jsonified object.
-        for herb in HerbList:
+        for herb in herb_list:
             if herb['latinbinomial'] == latinbinomial:
-                herb['base64Image'] = wikiImgObj['firstImage']['base64']
-                herb['thumbnail'] = thumbnailImgObj['base64']
+                herb['base64Image'] = wiki_img_obj['firstImage']['base64']
+                herb['thumbnail'] = thumbnail_img_obj['base64']
+                print(herb)
                 return jsonify(herb)
+
 
 # Populates herb list on page load and renders the page.
 @app.route("/", methods=['GET', 'POST'])
 def teamain():
-    HerbList.clear()
-    HerbList.append(melissaofficinalis)
-    HerbList.append(menthaspicata)
-    HerbList.append(cinnamomumcassia)
-    HerbList.append(phytolaccaamericana)
-    HerbList.append(hypericumperforatum)
-    HerbList.append(passifloraincarnata)
-    HerbList.append(centellaasiatica)
-    HerbList.append(arctostaphylosuvaursi)
+    herb_list.clear()
+    herb_list.append(melissaofficinalis)
+    herb_list.append(menthaspicata)
+    herb_list.append(cinnamomumcassia)
+    herb_list.append(phytolaccaamericana)
+    herb_list.append(hypericumperforatum)
+    herb_list.append(passifloraincarnata)
+    herb_list.append(centellaasiatica)
+    herb_list.append(arctostaphylosuvaursi)
 
-    return render_template("index.html", HerbList=HerbList)
+    return render_template("index.html", HerbList=herb_list)
+
 
 # Recieves an Herb object json file, adds the herb to the tea list, and
 # updates the totalled tea flavors.
@@ -379,27 +387,33 @@ def teamain():
 def addHerb():
     if request.method == "POST":
         print("JSON " + str(request.json))
-        herbToAdd = request.json
-        print(herbToAdd['latinbinomial'])
-        for herb in TeaList:
-            if herb['commonname'] == 'TeaFlavors':
-                print("TeaFlavor")
-            elif herb['latinbinomial'] == herbToAdd['latinbinomial']:
-                return jsonify(TeaList)
-        TeaList.append(herbToAdd)
-        modTeaFlavor("add", herbToAdd)
-        return jsonify(TeaList)
+        herb_to_add = request.json
+        print(herb_to_add['latinbinomial'])
+        for herb in tea_list:
+            print(herb_to_add['latinbinomial'])
+            if herb['commonname'] == 'tea_flavors':
+                print("tea_flavor")
+            # Do not add an herb if it's already in the list
+            elif herb['latinbinomial'] == herb_to_add['latinbinomial']:
+                return jsonify(tea_list)
+        for herb in herb_list:
+            if herb['latinbinomial'] == herb_to_add['latinbinomial']:
+                tea_list.append(herb)
+        mod_tea_flavor("add", herb_to_add)
+        return jsonify(tea_list)
+
 
 # Adds or subtracts the passed herb's flavor from the totalled tea flavors
-def modTeaFlavor(addOrSub, herbJSON):
-    if addOrSub == "add":
-        for flavor in TeaFlavors['flavors']:
-            if herbJSON['flavors'][flavor] >= 1:
-                TeaFlavors['flavors'][flavor] += 1
-    if addOrSub == "subtract":
-        for flavor in TeaFlavors['flavors']:
-            if herbJSON['flavors'][flavor] == 1:
-                TeaFlavors['flavors'][flavor] -= 1
+def mod_tea_flavor(add_or_sub, herb_json):
+    if add_or_sub == "add":
+        for flavor in tea_flavors['flavors']:
+            if herb_json['flavors'][flavor] >= 1:
+                tea_flavors['flavors'][flavor] += 1
+    if add_or_sub == "subtract":
+        for flavor in tea_flavors['flavors']:
+            if herb_json['flavors'][flavor] == 1:
+                tea_flavors['flavors'][flavor] -= 1
+
 
 # Recieves the latinbinomial of an herb, removes it from the tea list
 # and updates the totalled herb flavors
@@ -407,12 +421,12 @@ def modTeaFlavor(addOrSub, herbJSON):
 def removeHerb():
     if request.method == "GET":
         latinbinomial = request.args.get('latinbinomial', '')
-        for herb in TeaList:
+        for herb in tea_list:
             if latinbinomial in str(herb):
-                TeaList.remove(herb)
-    modTeaFlavor("subtract", herb)
+                tea_list.remove(herb)
+    mod_tea_flavor("subtract", herb)
+    return jsonify(tea_list)
 
-    return jsonify(TeaList)
 
 # Recieves a flavor, and rebuilds the herb list with only herbs
 # containing that flavor.
@@ -421,10 +435,9 @@ def filterList():
     if request.method == "GET":
         flavorFilter = request.args.get('flavorFilter', '')
         if flavorFilter == "rm":
-            return jsonify(HerbList)
+            return jsonify(herb_list)
         FilteredList = []
-        for herb in HerbList:
+        for herb in herb_list:
             if herb['flavors'][flavorFilter] >= 1:
                 FilteredList.append(herb)
         return jsonify(FilteredList)
-        
